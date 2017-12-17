@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Goutte\Client;
 use App\Instruments;
+use Goutte\Client;
+use Illuminate\Console\Command;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class InstrumentsCommand extends Command
 {
@@ -66,8 +67,8 @@ class InstrumentsCommand extends Command
             array_push($symbolArr, $node->text());
         });
         // get Links from Subpages
-        foreach ($urlArr as $key => $v) {
-            // for ($key = 0; $key < 100; $key++) {
+        // foreach ($urlArr as $key => $v) {
+        for ($key = 0; $key < 1000; $key++) {
             try {
                 $subCrawler = $client->request('GET', $urlArr[$key]);
                 $image = $subCrawler->filter($img)->extract(array('src'));
@@ -75,18 +76,19 @@ class InstrumentsCommand extends Command
                 print_r($image[0] . "\n");
                 array_push($imgArr, $image[0]);
             } catch (Exception $e) {
-
             }
         }
         print_r($imgArr);
 
         //Multi Dimensional Array
-        foreach ($coinArr as $key => $v) {
+        // foreach ($coinArr as $key => $v) {
+        for ($key = 0; $key < 1000; $key++) {
             try {
                 ///save image to public folder
                 $fileName = basename($imgArr[$key]);
                 print_r($fileName . "\n");
-                Image::make($imgArr[$key])->save(public_path('images/' . $fileName));
+                $base=base64_decode($imgArr[$key]);
+                Image::make($base)->save(public_path('images/' . $fileName));
 
                 Instruments::updateOrCreate([
                     'name' => $coinArr[$key],
@@ -96,6 +98,7 @@ class InstrumentsCommand extends Command
                     'image' => $fileName,
                 ]);
             } catch (Exception $e) {
+                print_r($e);
             }
         }
     }
