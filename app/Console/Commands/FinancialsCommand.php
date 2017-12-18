@@ -42,70 +42,48 @@ class FinancialsCommand extends Command
         $client = new Client();
         $cssSelector = 'tr';
         $coin = 'td.no-wrap.currency-name > a';
-        $url = 'td.no-wrap.currency-name > a';
-        $symbol = 'td.text-left.col-symbol';
-        $price = 'td:nth-child(5) > a';
-        $img = 'body > div.container > div > div.col-lg-10 > div:nth-child(5) > div.col-xs-6.col-sm-4.col-md-4 > h1 > img';
+        $market_cap = 'td.no-wrap.market-cap.text-right';
+        $volume_24h = 'td:nth-child(7) > a';
+        $circulatingSupply = 'td.no-wrap.text-right.circulating-supply > a';
+
         //arrays
         $coinArr = array();
-        $urlArr = array();
-        $symbolArr = array();
-        $priceArr = array();
-        $imgArr = array();
+        $market_capArr = array();
+        $volume_24hArr = array();
+        $circulatingSupplyArr = array();
+        
         $crawler = $client->request('GET', 'https://coinmarketcap.com/all/views/all/');
         $crawler->filter($coin)->each(function ($node) use (&$coinArr) {
             //    print $node->text()."\n";
             array_push($coinArr, $node->text());
         });
-        $crawler->filter($url)->each(function ($node) use (&$urlArr) {
-            $link = $node->link();
-            $uri = $link->getUri();
-            //    print $uri."\n";
-            array_push($urlArr, $uri);
-        });
-        $crawler->filter($symbol)->each(function ($node) use (&$symbolArr) {
-            //    print $node->text()."\n";
-            array_push($symbolArr, $node->text());
-        });
-        $crawler->filter($price)->each(function ($node) use (&$priceArr) {
+        $crawler->filter($market_cap)->each(function ($node) use (&$market_capArr) {
             //    print $node->text()."\n";
             $p = $node->extract(array('data-usd'));
-            array_push($priceArr, $p[0]);
+            array_push($market_capArr, $p[0]);
         });
-        // get Links from Subpages
-        foreach ($urlArr as $key => $v) {
-        // for ($key = 0; $key < 100; $key++) {
+        $crawler->filter($volume_24h)->each(function ($node) use (&$volume_24hArr) {
+            //    print $node->text()."\n";
+            $d = $node->extract(array('data-usd'));
+            array_push($volume_24hArr, $d[0]);
+        });
+        $crawler->filter($circulatingSupply)->each(function ($node) use (&$circulatingSupplyArr) {
+        //    $w = $node->extract(array('data-supply'));
+        //    array_push($circulatingSupply, $w[0]);
+            array_push($circulatingSupplyArr, $node->text());
+        });        
+
+        // Multi Dimensional Array
+        // foreach ($coinArr as $key => $v) {
+        for ($key = 0; $key < 100; $key++) {
+            print_r($market_capArr[$key]);
+            print_r($volume_24hArr[$key]);
+            print_r($circulatingSupplyArr[$key]);
             try {
-                $subCrawler = $client->request('GET', $urlArr[$key]);
-                $image = $subCrawler->filter($img)->extract(array('src'));
-                $image[0] = isset($image[0]) ? $image[0] : ''; // No Error such as "Undefined offset: 0"
-                print_r($image[0] . "\n");
-                array_push($imgArr, $image[0]);
-            } catch (Exception $e) {
-            }
-        }
-        print_r($imgArr);
-        
-        //Multi Dimensional Array
-        foreach ($coinArr as $key => $v) {
-        // for ($key = 0; $key < 100; $key++) {
-            /*    $cryptoAsset = new CryptoAsset();
-            $cryptoAsset->name = $coinArr[$key];
-            $cryptoAsset->symbol = $symbolArr[$key];
-            $cryptoAsset->current_price = $priceArr[$key];
-             */
-            try {
-                ///save image to public folder
-                $fileName = basename($imgArr[$key]);
-                print_r($fileName . "\n");                
-                Image::make($imgArr[$key])->save(public_path('images/' . $fileName));
-                //    $cryptoAsset->asset_logo = $fileName;
-                // $cryptoAsset->updateOrCreate();
-                CryptoAsset::updateOrCreate(
-                    ['name' => $coinArr[$key],
-                    'symbol' => $symbolArr[$key],
-                    'current_price' => $priceArr[$key],
-                    'asset_logo' => $fileName]
+                Financials::updateOrCreate(
+                    ['market_cap' => $market_capArr[$key],
+                    'volume_24h' => $volume_24hArr[$key],
+                    'circulatingSupply' => $circulatingSupplyArr[$key]]
                 );
             } catch (Exception $e) { 
             }

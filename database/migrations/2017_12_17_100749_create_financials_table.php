@@ -17,7 +17,8 @@ class CreateFinancialsTable extends Migration
             $table->increments('id');
             $table->integer('instruments_id');
             $table->decimal('market_cap', 40, 9);
-            $table->decimal('volume', 40, 9);
+            $table->decimal('volume_24h', 40, 9);
+            $table->decimal('circulatingSupply', 40, 4);
             $table->decimal('daily_percent_change', 10, 2);
             $table->timestamps();
         });
