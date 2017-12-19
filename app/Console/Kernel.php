@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\InstrumentsCommand::class,
         Commands\FinancialsCommand::class,
+        Commands\PricesCommand::class,
     ];
 
     /**
@@ -29,6 +30,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('Instruments:download')->hourly();
         $schedule->command('Financials:download')->hourly();
+        $schedule->command('Prices:download')->everyFiveMinutes();
     }
 
     /**
