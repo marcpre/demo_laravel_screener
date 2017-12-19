@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Financials;
+use App\Instruments;
+use DB;
 use Goutte\Client;
 
 class FinancialsCommand extends Command
@@ -54,34 +56,35 @@ class FinancialsCommand extends Command
         
         $crawler = $client->request('GET', 'https://coinmarketcap.com/all/views/all/');
         $crawler->filter($coin)->each(function ($node) use (&$coinArr) {
-            //    print $node->text()."\n";
             array_push($coinArr, $node->text());
         });
         $crawler->filter($market_cap)->each(function ($node) use (&$market_capArr) {
-            //    print $node->text()."\n";
             $p = $node->extract(array('data-usd'));
-            array_push($market_capArr, $p[0]);
+            array_push($market_capArr, floatval($p[0]));
         });
         $crawler->filter($volume_24h)->each(function ($node) use (&$volume_24hArr) {
-            //    print $node->text()."\n";
             $d = $node->extract(array('data-usd'));
-            array_push($volume_24hArr, $d[0]);
+            array_push($volume_24hArr, floatval($d[0]));
         });
         $crawler->filter($circulatingSupply)->each(function ($node) use (&$circulatingSupplyArr) {
-        //    $w = $node->extract(array('data-supply'));
-        //    array_push($circulatingSupply, $w[0]);
-            array_push($circulatingSupplyArr, $node->text());
+            $i = $node->extract(array('data-supply'));
+            array_push($circulatingSupplyArr, floatval($i[0]));
         });        
 
         // Multi Dimensional Array
-        // foreach ($coinArr as $key => $v) {
-        for ($key = 0; $key < 100; $key++) {
-            print_r($market_capArr[$key]);
-            print_r($volume_24hArr[$key]);
-            print_r($circulatingSupplyArr[$key]);
+        foreach ($coinArr as $key => $v) {
+        //for ($key = 0; $key < 100; $key++) {
+            print_r($coinArr[$key]. "\n");
+            /* print_r(floatval($market_capArr[$key]). "\n");
+            print_r(floatval($volume_24hArr[$key]). "\n");
+            print_r(floatval($circulatingSupplyArr[$key]). "\n"); */
+
+            // $instruments_id = Instruments::where('name', '=', $coinArr[$key]);
+            $instruments_id = DB::table('instruments')->where('name', $coinArr[$key])->first();
             try {
                 Financials::updateOrCreate(
-                    ['market_cap' => $market_capArr[$key],
+                    ['instruments_id' => $instruments_id->id,
+                    'market_cap' => $market_capArr[$key],
                     'volume_24h' => $volume_24hArr[$key],
                     'circulatingSupply' => $circulatingSupplyArr[$key]]
                 );

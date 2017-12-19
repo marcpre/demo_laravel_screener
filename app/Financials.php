@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Financials extends Model
 {
-    protected $fillable = ['market_cap', 'volume', 'daily_percent_change'];
+    protected $fillable = ['instruments_id', 'market_cap', 'volume_24h', 'circulatingSupply'];
 }
