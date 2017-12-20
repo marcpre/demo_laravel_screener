@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use DB;
+use App\Markets;
+use Log;
 use Illuminate\Console\Command;
 
 class MarketsCommand extends Command
@@ -42,18 +44,7 @@ class MarketsCommand extends Command
         $poloArray = $poloniex->load_markets();
         $this->updateMarket($poloArray, "poloniex");
 
-        $bittrex = new \ccxt\bittrex(array('verbose' => true));
-        $bitfinex;
-        $bithumb;
-        $binance;
-        $gdax = new \ccxt\gdax();
-        $okex;
-        $hitbtc;
-        $bitstamp;
-        $huobi;
-        $kraken;
-
-        print_r($poloArray);
+        // print_r($poloArray);
         //insert poloniex markets into db
 
     }
@@ -63,7 +54,7 @@ class MarketsCommand extends Command
         foreach ($marketsArray as $key => $v) {
             // for ($key = 0; $key < 1000; $key++) {
             $exchanges_id = DB::table('exchanges')->where('name', $exchangeName)->first();
-            print_r($marketsArray[$key]->symbol);
+            var_dump($marketsArray[$key]['symbol']);
 
             try {
                 ///save image to public folder
