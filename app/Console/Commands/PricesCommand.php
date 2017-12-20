@@ -2,15 +2,16 @@
 
 namespace App\Console\Commands;
 
+use ccxt\ccxt;
 use Illuminate\Console\Command;
 
 class PricesCommand extends Command
 {
 /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+ * The name and signature of the console command.
+ *
+ * @var string
+ */
     protected $signature = 'Prices:download';
 
     /**
@@ -19,7 +20,7 @@ class PricesCommand extends Command
      * @var string
      */
     protected $description = 'Get prices for the 10 world largest exchanges.';
-    
+
     /**
      * Create a new command instance.
      *
@@ -37,6 +38,17 @@ class PricesCommand extends Command
      */
     public function handle()
     {
-        //
+        $poloniex = new \ccxt\poloniex();
+        $bittrex = new \ccxt\bittrex(array('verbose' => true));
+        $bitfinex;
+        $bithumb;
+        $binance;
+        $gdax= new \ccxt\gdax();;
+        $okex;
+        $hitbtc;
+        $bitstamp;
+        $huobi;
+        $kraken;
+
     }
 }
