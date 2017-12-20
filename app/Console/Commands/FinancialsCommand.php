@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Financials;
-use App\Instruments;
 use DB;
 use Goutte\Client;
+use Illuminate\Console\Command;
 
 class FinancialsCommand extends Command
 {
@@ -53,7 +52,7 @@ class FinancialsCommand extends Command
         $market_capArr = array();
         $volume_24hArr = array();
         $circulatingSupplyArr = array();
-        
+
         $crawler = $client->request('GET', 'https://coinmarketcap.com/all/views/all/');
         $crawler->filter($coin)->each(function ($node) use (&$coinArr) {
             array_push($coinArr, $node->text());
@@ -69,26 +68,40 @@ class FinancialsCommand extends Command
         $crawler->filter($circulatingSupply)->each(function ($node) use (&$circulatingSupplyArr) {
             $i = $node->extract(array('data-supply'));
             array_push($circulatingSupplyArr, floatval($i[0]));
-        });        
+        });
 
         // Multi Dimensional Array
         foreach ($coinArr as $key => $v) {
-        //for ($key = 0; $key < 100; $key++) {
-            print_r($coinArr[$key]. "\n");
-            /* print_r(floatval($market_capArr[$key]). "\n");
-            print_r(floatval($volume_24hArr[$key]). "\n");
-            print_r(floatval($circulatingSupplyArr[$key]). "\n"); */
+            //for ($key = 0; $key < 100; $key++) {
 
+            if (!empty($market_capArr[$key])) {
+                $market_capArr[$key] = 0;
+            }
+            if (!empty($volume_24hArr[$key])) {
+                $volume_24hArr[$key] = 0;
+            }
+            if (!empty($circulatingSupplyArr[$key])) {
+                $circulatingSupplyArr[$key] = 0;
+            }
+            
+            print_r("####################" . "\n");
+            print_r($coinArr[$key] . "\n");
+            print_r(floatval($market_capArr[$key]). "\n");
+            print_r(floatval($volume_24hArr[$key]). "\n");
+            var_dump(floatval($circulatingSupplyArr[$key]). "\n");
+            
             // $instruments_id = Instruments::where('name', '=', $coinArr[$key]);
             $instruments_id = DB::table('instruments')->where('name', $coinArr[$key])->first();
-            try {
-                Financials::updateOrCreate(
-                    ['instruments_id' => $instruments_id->id,
-                    'market_cap' => $market_capArr[$key],
-                    'volume_24h' => $volume_24hArr[$key],
-                    'circulatingSupply' => $circulatingSupplyArr[$key]]
-                );
-            } catch (Exception $e) { 
+            if (!empty($instruments_id)) {
+                try {
+                    Financials::updateOrCreate(
+                        ['instruments_id' => $instruments_id->id,
+                            'market_cap' => $market_capArr[$key],
+                            'volume_24h' => $volume_24hArr[$key],
+                            'circulatingSupply' => $circulatingSupplyArr[$key]]
+                    );
+                } catch (Exception $e) {
+                }
             }
         }
     }

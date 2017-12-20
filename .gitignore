@@ -20,3 +20,24 @@ Homestead.json
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
+
+# Wordpress
+
+*.log
+wordpress/wp-config.php
+wordpress/wp-content/advanced-cache.php
+wordpress/wp-content/backup-db/
+wordpress/wp-content/backups/
+wordpress/wp-content/blogs.dir/
+wordpress/wp-content/cache/
+wordpress/wp-content/upgrade/
+wordpress/wp-content/uploads/
+wordpress/wp-content/wp-cache-config.php
+wordpress/wp-content/plugins/hello.php
+
+wordpress/.htaccess
+wordpress/license.txt
+wordpress/readme.html
+wordpress/sitemap.xml
+wordpress/sitemap.xml.gz
+

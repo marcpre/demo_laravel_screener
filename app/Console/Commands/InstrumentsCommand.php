@@ -80,7 +80,7 @@ class InstrumentsCommand extends Command
             }
         }
         print_r($imgArr);
- 
+
         //Multi Dimensional Array
         foreach ($coinArr as $key => $v) {
         // for ($key = 0; $key < 1000; $key++) {
