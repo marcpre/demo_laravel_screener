@@ -15,9 +15,21 @@ class CreatePricesTable extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('instruments_id');
             $table->integer('exchanges_id');
-            $table->decimal('current_price', 40, 9);
+            $table->string('symbol');
+            $table->dateTime('exch_datetime');
+            $table->decimal('high', 40, 9);
+            $table->decimal('low', 40, 9);
+            $table->decimal('bid', 40, 9);
+            $table->decimal('ask', 40, 9);
+            $table->decimal('vwap', 40, 9);
+            $table->decimal('open', 40, 9);
+            $table->decimal('first', 40, 9);
+            $table->decimal('last', 40, 9);
+            $table->decimal('change', 40, 9);
+            $table->decimal('average', 40, 9);
+            $table->decimal('baseVolume', 40, 9);
+            $table->decimal('quoteVolume', 40, 9);
             $table->timestamps();
         });
     }

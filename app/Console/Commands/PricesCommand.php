@@ -43,12 +43,29 @@ class PricesCommand extends Command
         $bitfinex;
         $bithumb;
         $binance;
-        $gdax= new \ccxt\gdax();;
+        $gdax = new \ccxt\gdax();
         $okex;
         $hitbtc;
         $bitstamp;
         $huobi;
         $kraken;
 
+        print_r($poloniex->load_markets());
+        print_r("#################" . "\n");
+        print_r($poloniex->fetch_ticker('STORJ/BTC'));
+
+        // var_dump($poloniex->fetch_order_book($poloniex->symbols[0]));
+
+/*
+foreach ($exchArr as $key => $v) {
+print_r($exchArr[$key] . "\n");
+try {
+Exchanges::updateOrCreate(
+['name' => $exchArr[$key]]
+);
+} catch (Exception $e) {
+}
+}
+ */
     }
 }
