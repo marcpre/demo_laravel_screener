@@ -73,22 +73,21 @@ class FinancialsCommand extends Command
         // Multi Dimensional Array
         foreach ($coinArr as $key => $v) {
             //for ($key = 0; $key < 100; $key++) {
-
-            if (!empty($market_capArr[$key])) {
+            
+            /*if (!empty($market_capArr[$key])) {
                 $market_capArr[$key] = 0;
             }
             if (!empty($volume_24hArr[$key])) {
                 $volume_24hArr[$key] = 0;
-            }
-            if (!empty($circulatingSupplyArr[$key])) {
+            }*/
+            if (!isset($circulatingSupplyArr[$key])) {
                 $circulatingSupplyArr[$key] = 0;
             }
-            
             print_r("####################" . "\n");
-            print_r($coinArr[$key] . "\n");
-            print_r(floatval($market_capArr[$key]). "\n");
-            print_r(floatval($volume_24hArr[$key]). "\n");
-            var_dump(floatval($circulatingSupplyArr[$key]). "\n");
+            print_r("Coin: " . $coinArr[$key] . "\n");
+            print_r("Market Cap: " . floatval($market_capArr[$key]). "\n");
+            print_r("Volume 24h: " . floatval($volume_24hArr[$key]). "\n");
+            print_r("Circulating Supply: " . $circulatingSupplyArr[$key]. "\n");
             
             // $instruments_id = Instruments::where('name', '=', $coinArr[$key]);
             $instruments_id = DB::table('instruments')->where('name', $coinArr[$key])->first();
