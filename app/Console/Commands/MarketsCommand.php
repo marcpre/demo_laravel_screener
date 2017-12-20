@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use DB;
 use App\Markets;
-use Log;
+use DB;
 use Illuminate\Console\Command;
+use Log;
 
 class MarketsCommand extends Command
 {
@@ -54,17 +54,19 @@ class MarketsCommand extends Command
         foreach ($marketsArray as $key => $v) {
             // for ($key = 0; $key < 1000; $key++) {
             $exchanges_id = DB::table('exchanges')->where('name', $exchangeName)->first();
-            var_dump($marketsArray[$key]['symbol']);
-
+            print_r($marketsArray[$key]['symbol'] . "\n");
+/*            print_r($marketsArray[$key]['base'] . "\n");
+print_r($marketsArray[$key]['quote'] . "\n");
+print_r($exchanges_id);
+ */
             try {
-                ///save image to public folder
                 Markets::updateOrCreate([
-                    'symbol' => $marketsArray[$key]->symbol,
+                    'symbol' => $marketsArray[$key]['symbol'],
                 ], [
-                    'exchanges_id' => $exchanges_id,
-                    'symbol' => $marketsArray[$key]->symbol,
-                    'base' => $marketsArray[$key]->base,
-                    'quote' => $marketsArray[$key]->quote,
+                    'exchanges_id' => $exchanges_id->id,
+                    'symbol' => $marketsArray[$key]['symbol'],
+                    'base' => $marketsArray[$key]['base'],
+                    'quote' => $marketsArray[$key]['quote'],
                 ]);
             } catch (\Exception $e) {
                 Log::error($e->getMessage());
