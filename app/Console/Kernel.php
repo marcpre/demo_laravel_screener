@@ -32,9 +32,9 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('Instruments:download')->hourly();
         $schedule->command('Financials:download')->hourly();
-        $schedule->command('Prices:download')->everyFiveMinutes();
         $schedule->command('Exchanges:download')->monthly();
-        $schedule->command('Markets:download')->monthly();             
+        $schedule->command('Markets:download')->monthly();
+        $schedule->command('Prices:download')->everyFiveMinutes();             
     }
 
     /**
