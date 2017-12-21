@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Prices extends Model
 {
-    protected $fillable = ['exchanges_id', 'price'];
+    protected $fillable = ['exchanges_id', 'symbol', 'exch_datetime', 'high', 'low', 'bid', 'ask', 'vwap', 'open', 'first', 'last', 'change', 'average', 'baseVolume', 'quoteVolume',];
 }

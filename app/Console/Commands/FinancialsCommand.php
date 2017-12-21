@@ -83,22 +83,30 @@ class FinancialsCommand extends Command
             if (!isset($circulatingSupplyArr[$key])) {
                 $circulatingSupplyArr[$key] = 0;
             }
-            print_r("####################" . "\n");
-            print_r("Coin: " . $coinArr[$key] . "\n");
-            print_r("Market Cap: " . floatval($market_capArr[$key]). "\n");
-            print_r("Volume 24h: " . floatval($volume_24hArr[$key]). "\n");
-            print_r("Circulating Supply: " . $circulatingSupplyArr[$key]. "\n");
             
             // $instruments_id = Instruments::where('name', '=', $coinArr[$key]);
             $instruments_id = DB::table('instruments')->where('name', $coinArr[$key])->first();
             if (!empty($instruments_id)) {
                 try {
-                    Financials::updateOrCreate(
+                $financials = new Financials;
+                $financials->instruments_id = $instruments_id->id;
+                $financials->market_cap = $market_capArr[$key];
+                $financials->volume_24h = $volume_24hArr[$key];
+                $financials->circulatingSupply = $circulatingSupplyArr[$key];
+                $financials->save();
+                
+                print_r("####################" . "\n");
+                print_r("Coin: " . $coinArr[$key] . "\n");
+                print_r("Market Cap: " . floatval($market_capArr[$key]). "\n");
+                print_r("Volume 24h: " . floatval($volume_24hArr[$key]). "\n");
+                print_r("Circulating Supply: " . $circulatingSupplyArr[$key]. "\n");
+                
+                    /* Financials::updateOrCreate(
                         ['instruments_id' => $instruments_id->id,
                             'market_cap' => $market_capArr[$key],
                             'volume_24h' => $volume_24hArr[$key],
                             'circulatingSupply' => $circulatingSupplyArr[$key]]
-                    );
+                    ); */
                 } catch (Exception $e) {
                 }
             }
