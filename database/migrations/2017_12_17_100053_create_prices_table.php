@@ -15,21 +15,21 @@ class CreatePricesTable extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('exchanges_id');
-            $table->string('symbol');
+            $table->integer('exchanges_id')->default('999999');
+            $table->string('symbol')->default('DEFAULT_VALUE');
             $table->dateTime('exch_datetime');
-            $table->decimal('high', 40, 9);
-            $table->decimal('low', 40, 9);
-            $table->decimal('bid', 40, 9);
-            $table->decimal('ask', 40, 9);
-            $table->decimal('vwap', 40, 9);
-            $table->decimal('open', 40, 9);
-            $table->decimal('first', 40, 9);
-            $table->decimal('last', 40, 9);
-            $table->decimal('change', 40, 9);
-            $table->decimal('average', 40, 9);
-            $table->decimal('baseVolume', 40, 9);
-            $table->decimal('quoteVolume', 40, 9);
+            $table->decimal('high', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('low', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('bid', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('ask', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('vwap', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('open', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('first', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('last', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('change', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('average', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('baseVolume', 40, 9)->default('-99999999999999')->nullable($value = true);
+            $table->decimal('quoteVolume', 40, 9)->default('-99999999999999')->nullable($value = true);
             $table->timestamps();
         });
     }
