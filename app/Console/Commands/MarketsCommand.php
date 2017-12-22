@@ -126,19 +126,19 @@ class MarketsCommand extends Command
     {
         foreach ($marketsArray as $key => $v) {
             // for ($key = 0; $key < 1000; $key++) {
-            $exchanges_id = DB::table('exchanges')->where('name', $exchangeName)->first();
+            $exchange = DB::table('exchanges')->where('name', $exchangeName)->first();
+            $instrument = DB::table('instruments')->where('symbol', $marketsArray[$key]['symbol'])->first();
             print_r($exchangeName . ": " . $marketsArray[$key]['symbol'] . "\n");
-/*            print_r($marketsArray[$key]['base'] . "\n");
-print_r($marketsArray[$key]['quote'] . "\n");
-print_r($exchanges_id);
- */
+            var_dump($instruments_id);
+
             try {
                 Markets::updateOrCreate([
-                    'exchanges_id' => $exchanges_id->id,
-                    'instruments_id' => $instruments_id->id,
+                    'exchanges_id' => $exchange->id,
+                    'instruments_id' => $instrument->id,
                     'symbol' => $marketsArray[$key]['symbol'],
                 ], [
                     'exchanges_id' => $exchanges_id->id,
+                    'instruments_id' => $instrument->id,
                     'symbol' => $marketsArray[$key]['symbol'],
                     'base' => $marketsArray[$key]['base'],
                     'quote' => $marketsArray[$key]['quote'],

@@ -88,8 +88,10 @@ class InstrumentsCommand extends Command
                 ///save image to public folder
                 $fileName = basename($imgArr[$key]);
                 print_r($fileName . "\n");
-                Image::make($imgArr[$key])->save(public_path('images/' . $fileName));
-
+                if(!file_exists(public_path('images/' . $fileName))){
+                    Image::make($imgArr[$key])->save(public_path('images/' . $fileName));
+                }
+                                
                 if ($fileName != "") {
                     Instruments::updateOrCreate([
                         'name' => $coinArr[$key],
