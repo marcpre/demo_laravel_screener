@@ -16,6 +16,7 @@ class CreateMarketsTable extends Migration
         Schema::create('markets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('exchanges_id');
+            $table->integer('instruments_id')->nullable($value = true);
             $table->string('symbol');
             $table->string('base');
             $table->string('quote');

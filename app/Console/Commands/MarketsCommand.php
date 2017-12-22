@@ -135,6 +135,7 @@ print_r($exchanges_id);
             try {
                 Markets::updateOrCreate([
                     'exchanges_id' => $exchanges_id->id,
+                    'instruments_id' => $instruments_id->id,
                     'symbol' => $marketsArray[$key]['symbol'],
                 ], [
                     'exchanges_id' => $exchanges_id->id,
