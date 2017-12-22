@@ -72,14 +72,6 @@ class FinancialsCommand extends Command
 
         // Multi Dimensional Array
         foreach ($coinArr as $key => $v) {
-            //for ($key = 0; $key < 100; $key++) {
-            
-            /*if (!empty($market_capArr[$key])) {
-                $market_capArr[$key] = 0;
-            }
-            if (!empty($volume_24hArr[$key])) {
-                $volume_24hArr[$key] = 0;
-            }*/
             if (!isset($circulatingSupplyArr[$key])) {
                 $circulatingSupplyArr[$key] = 0;
             }
