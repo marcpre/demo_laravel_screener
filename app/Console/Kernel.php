@@ -17,7 +17,9 @@ class Kernel extends ConsoleKernel
         Commands\FinancialsCommand::class,
         Commands\PricesCommand::class,
         Commands\ExchangesCommand::class,
-        Commands\MarketsCommand::class,       
+        Commands\MarketsCommand::class,
+        Commands\TestCommand::class,       
+       
     ];
 
     /**

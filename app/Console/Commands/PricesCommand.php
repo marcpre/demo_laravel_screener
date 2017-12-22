@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Prices;
+use App\Price;
 use ccxt\ccxt;
-use DateTime;
 use DB;
 use Illuminate\Console\Command;
 use Log;
@@ -46,7 +45,6 @@ class PricesCommand extends Command
         $this->updatePrices($poloniex, "poloniex");
 
         // print_r($poloniex->fetch_ticker('STORJ/BTC'));
-
         // var_dump($poloniex->fetch_order_book($poloniex->symbols[0]));
 
     }
@@ -65,51 +63,53 @@ class PricesCommand extends Command
 
         foreach ($symbolsArray as $key => $v) {
             // for ($key = 0; $key < 1000; $key++) {
-            print_r($symbolsArray[$key]->symbol . "\n");
             $tick = $exchangeObj->fetch_ticker($symbolsArray[$key]->symbol);
             // var_dump($tick);
-/*            var_dump('exchanges_id: ' . $symbolsArray[$key]->exchanges_id . "\n" .
-                'exch_datetime: ' . $tick['datetime'] . "\n" .
-                'high: ' . $tick['high'] . "\n" .
-                'low: ' . $tick['low'] . "\n" .
-                'bid: ' . $tick['bid'] . "\n" .
-                'ask: ' . $tick['ask'] . "\n" .
-                'vwap: ' . $tick['vwap'] . "\n" .
-                'open: ' . $tick['open'] . "\n" .
-                'first: ' . $tick['first'] . "\n" .
-                'last: ' . $tick['last'] . "\n" .
-                'change: ' . $tick['change'] . "\n" .
-                'average: ' . $tick['average'] . "\n" .
-                'baseVolume: ' . $tick['baseVolume'] . "\n" .
-                'quoteVolume: ' . $tick['quoteVolume'] . "\n");
-*/
+            /*            var_dump('exchanges_id: ' . $symbolsArray[$key]->exchanges_id . "\n" .
+            'exch_datetime: ' . $tick['datetime'] . "\n" .
+            'high: ' . $tick['high'] . "\n" .
+            'low: ' . $tick['low'] . "\n" .
+            'bid: ' . $tick['bid'] . "\n" .
+            'ask: ' . $tick['ask'] . "\n" .
+            'vwap: ' . $tick['vwap'] . "\n" .
+            'open: ' . $tick['open'] . "\n" .
+            'first: ' . $tick['first'] . "\n" .
+            'last: ' . $tick['last'] . "\n" .
+            'change: ' . $tick['change'] . "\n" .
+            'average: ' . $tick['average'] . "\n" .
+            'baseVolume: ' . $tick['baseVolume'] . "\n" .
+            'quoteVolume: ' . $tick['quoteVolume'] . "\n");
+             */
             try {
-                Prices::listen(function($sql) {
-                    var_dump($sql);
-                    var_dump($bindings);
-                    var_dump($time);
-                });
-                
-                Prices::updateOrCreate([
-//                  'exchanges_id' => $symbolsArray[$key]->exchanges_id,
-//                    'exch_datetime' => $tick['datetime'],
-                ], [
-                    'ask' => 99.99,
-/*                    'exchanges_id' => $symbolsArray[$key]->exchanges_id,
+                print_r("#######################" . "\n");                
+                print_r($symbolsArray[$key]->symbol . "\n");
+                print_r($symbolsArray[$key]->exchanges_id . "\n");
+                print_r($tick['datetime'] . "\n");
+                print_r($tick['ask'] . "\n");
+
+
+                $price = Price::updateOrCreate([
+                    'exchanges_id' => $symbolsArray[$key]->exchanges_id,
                     'exch_datetime' => $tick['datetime'],
-                    'high' => $tick['high'],
-                    'low' => $tick['low'],
-                    'bid' => $tick['bid'],
+                ], [
                     'ask' => $tick['ask'],
-                    'vwap' => $tick['vwap'],
-                    'open' => $tick['open'],
-                    'first' => $tick['first'],
-                    'last' => $tick['last'],
-                    'change' => $tick['change'],
-                    'average' => $tick['average'],
-                    'baseVolume' => $tick['baseVolume'],
-                    'quoteVolume' => $tick['quoteVolume'],
-*/                ]);
+/*                    'exchanges_id' => $symbolsArray[$key]->exchanges_id,
+'exch_datetime' => $tick['datetime'],
+'high' => $tick['high'],
+'low' => $tick['low'],
+'bid' => $tick['bid'],
+'ask' => $tick['ask'],
+'vwap' => $tick['vwap'],
+'open' => $tick['open'],
+'first' => $tick['first'],
+'last' => $tick['last'],
+'change' => $tick['change'],
+'average' => $tick['average'],
+'baseVolume' => $tick['baseVolume'],
+'quoteVolume' => $tick['quoteVolume'],
+ */]);
+
+                var_dump($price->toSql());
 
             } catch (\Exception $e) {
                 Log::info($e->getMessage());
