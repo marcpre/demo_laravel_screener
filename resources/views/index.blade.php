@@ -116,8 +116,8 @@
                             <tr>
                                 <td>{{ $cryptos->id }}</td>
                                 <td>
-                                <img style="height: 16px; width: 16px;" src="{{ asset('images')}}/{{ $cryptos->asset_logo }}" />
-                                <a href="{{ route('crypto.show', ['cryptoAsset'=>$cryptos->id]) }}" >{{ $cryptos->name }}</a>
+                                <img style="height: 16px; width: 16px;" src="{{ asset('images')}}/{{ $cryptos->image }}" />
+                                {{ $cryptos->name }}
                                 </td>
                                 <td>{{ $cryptos->symbol }}</td>
                                 <td></td>
@@ -132,6 +132,11 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{-- Pagination --}}
+                    <div class="row text-center">
+                        {{ $storedOverview->links() }}
+                    </div>
+                    
                 </div>
             </div>
         </div>
