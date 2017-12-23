@@ -37,6 +37,7 @@ class GetAllDataCommand extends Command
      */
     public function handle()
     {
+        $this->call('migrate:fresh --seed');
         $this->call('Instruments:download');
         $this->call('Financials:download');
         $this->call('Exchanges:download');

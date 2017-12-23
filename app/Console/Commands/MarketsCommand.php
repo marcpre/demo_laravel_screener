@@ -133,11 +133,9 @@ class MarketsCommand extends Command
                     ->orWhere('name', '=', $marketsArray[$key]['base'])->first();
 
                 print_r($exchangeName . ": " . $marketsArray[$key]['symbol'] . "\n");
-                print_r($marketsArray[$key]['base'] . "\n");
-                print_r($instrument->id . "\n");
-                var_dump($instrument);
-                var_dump($exchange);
-                print_r("####################### \n");
+                // print_r($marketsArray[$key]['base'] . "\n");
+                // print_r($instrument->id . "\n");
+                // print_r("####################### \n");
 
                 $markets = Markets::updateOrCreate([
                     'exchanges_id' => $exchange->id,
