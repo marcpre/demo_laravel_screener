@@ -41,7 +41,7 @@ class MarketsCommand extends Command
     public function handle()
     {
         try {
-            
+
             //currently 18ten markets
             $poloniex = new \ccxt\poloniex();
             $poloArray = $poloniex->load_markets();
@@ -90,31 +90,31 @@ class MarketsCommand extends Command
             $btcchina = new \ccxt\btcchina();
             $btcchinaArray = $btcchina->load_markets();
             $this->updateMarket($btcchinaArray, "btcchina");
-                        
+
             $bitFlyer = new \ccxt\bitFlyer();
             $bitFlyerArray = $bitFlyer->load_markets();
             $this->updateMarket($bitFlyerArray, "bitFlyer");
-            
+
             $gemini = new \ccxt\gemini();
             $geminiArray = $gemini->load_markets();
-            $this->updateMarket($geminiArray, "gemini");            
+            $this->updateMarket($geminiArray, "gemini");
 
             $cex = new \ccxt\cex();
             $cexArray = $cex->load_markets();
-            $this->updateMarket($cexArray, "cex");    
+            $this->updateMarket($cexArray, "cex");
 
             $wex = new \ccxt\wex();
             $wexArray = $wex->load_markets();
-            $this->updateMarket($wexArray, "wex");    
-            
+            $this->updateMarket($wexArray, "wex");
+
             $yobit = new \ccxt\yobit();
             $yobitArray = $yobit->load_markets();
-            $this->updateMarket($yobitArray, "yobit");    
+            $this->updateMarket($yobitArray, "yobit");
 
             $btcx = new \ccxt\btcx();
             $btcxArray = $btcx->load_markets();
-            $this->updateMarket($btcxArray, "btcx");    
-            
+            $this->updateMarket($btcxArray, "btcx");
+
             // print_r($poloArray);
             //insert poloniex markets into db
         } catch (\Exception $e) {
@@ -126,18 +126,24 @@ class MarketsCommand extends Command
     {
         foreach ($marketsArray as $key => $v) {
             // for ($key = 0; $key < 1000; $key++) {
-            $exchange = DB::table('exchanges')->where('name', $exchangeName)->first();
-            $instrument = DB::table('instruments')->where('symbol', $marketsArray[$key]['symbol'])->first();
-            print_r($exchangeName . ": " . $marketsArray[$key]['symbol'] . "\n");
-            var_dump($instruments_id);
-
             try {
-                Markets::updateOrCreate([
+                $exchange = DB::table('exchanges')->where('name', $exchangeName)->first();
+                $instrument = DB::table('instruments')
+                    ->where('symbol', '=', $marketsArray[$key]['base'])
+                    ->orWhere('name', '=', $marketsArray[$key]['base'])->first();
+
+                print_r($exchangeName . ": " . $marketsArray[$key]['symbol'] . "\n");
+                print_r($marketsArray[$key]['base'] . "\n");
+                print_r($instrument->id . "\n");
+                var_dump($instrument);
+                var_dump($exchange);
+                print_r("####################### \n");
+
+                $markets = Markets::updateOrCreate([
                     'exchanges_id' => $exchange->id,
-                    'instruments_id' => $instrument->id,
                     'symbol' => $marketsArray[$key]['symbol'],
                 ], [
-                    'exchanges_id' => $exchanges_id->id,
+                    'exchanges_id' => $exchange->id,
                     'instruments_id' => $instrument->id,
                     'symbol' => $marketsArray[$key]['symbol'],
                     'base' => $marketsArray[$key]['base'],

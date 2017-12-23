@@ -18,7 +18,8 @@ class Kernel extends ConsoleKernel
         Commands\PricesCommand::class,
         Commands\ExchangesCommand::class,
         Commands\MarketsCommand::class,
-       
+        Commands\OverviewCommand::class,
+        Commands\GetAllDataCommand::class,
     ];
 
     /**
@@ -35,7 +36,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('Financials:download')->hourly();
         $schedule->command('Exchanges:download')->monthly();
         $schedule->command('Markets:download')->monthly();
-        $schedule->command('Prices:download')->everyFiveMinutes();             
+        $schedule->command('Prices:download')->everyFiveMinutes();
+        $schedule->command('Overview:download')->everyFiveMinutes();             
+             
     }
 
     /**

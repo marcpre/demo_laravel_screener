@@ -11,14 +11,14 @@ class OverviewCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'Overview:download';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Creates the Overview Table.';
 
     /**
      * Create a new command instance.
@@ -37,6 +37,19 @@ class OverviewCommand extends Command
      */
     public function handle()
     {
-        //
+        $symbolsArray = DB::table('instruments')
+        ->join('markets', 'instruments.id', '=', 'markets.instruments_id')
+        ->join('financials', 'instruments.id', '=', 'financials.instruments_id')
+        ->join('markets', 'instruments.id', '=', 'markets.instruments_id')
+
+        ->where('name', $exchangeName)
+        ->get(array(
+            'symbol',
+            'image',
+            'market_cap',
+            'current_price',
+            '%Change',
+            'volume',
+        ))->toArray();
     }
 }
