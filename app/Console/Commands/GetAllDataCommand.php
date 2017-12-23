@@ -44,3 +44,5 @@ class GetAllDataCommand extends Command
         $this->call('Markets:download');
     }
 }
+
+

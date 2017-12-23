@@ -41,7 +41,6 @@ class OverviewCommand extends Command
         ->join('markets', 'instruments.id', '=', 'markets.instruments_id')
         ->join('financials', 'instruments.id', '=', 'financials.instruments_id')
         ->join('markets', 'instruments.id', '=', 'markets.instruments_id')
-
         ->where('name', $exchangeName)
         ->get(array(
             'symbol',
