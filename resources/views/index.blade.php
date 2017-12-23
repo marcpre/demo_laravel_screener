@@ -99,36 +99,37 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Symbol</th>
                                 <th scope="col">Name</th>
+                                <th scope="col">Symbol</th>
                                 <th scope="col">Sector</th>
                                 <th scope="col">Industry</th>
                                 <th scope="col">Country of Origin</th>
                                 <th scope="col">Market Cap.</th>
+                                <th scope="col">Circulating Supply</th>
                                 <th scope="col">Current Price</th>
                                 <th scope="col">% Change</th>
-                                <th scope="col">Volume</th>                               
+                                <th scope="col">Volume</th>
                             </tr>
                         </thead>
                         <tbody>
+                        @foreach ($storedOverview as $cryptos)
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
+                                <td>{{ $cryptos->id }}</td>
+                                <td>
+                                <img style="height: 16px; width: 16px;" src="{{ asset('images')}}/{{ $cryptos->asset_logo }}" />
+                                <a href="{{ route('crypto.show', ['cryptoAsset'=>$cryptos->id]) }}" >{{ $cryptos->name }}</a>
+                                </td>
+                                <td>{{ $cryptos->symbol }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{ $cryptos->market_cap }}</td>
+                                <td>{{ $cryptos->circulatingSupply }}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{ $cryptos->volume_24h }}</td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

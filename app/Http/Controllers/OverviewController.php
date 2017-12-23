@@ -14,7 +14,7 @@ class OverviewController extends Controller
      */
     public function index()
     {
-        $res = Overview::overview()->orderBy('market_cap', 'desc')->paginate(100);
+        $res = Overview::all()->orderBy('market_cap', 'desc')->paginate(100);
         var_dump($res);
         return view('index')->with('storedOverview', $res);
     }
