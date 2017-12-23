@@ -42,6 +42,7 @@ class GetAllDataCommand extends Command
         $this->call('Financials:download');
         $this->call('Exchanges:download');
         $this->call('Markets:download');
+        $this->call('Overview:download');
     }
 }
 

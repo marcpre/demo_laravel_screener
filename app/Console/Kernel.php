@@ -37,8 +37,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('Exchanges:download')->monthly();
         $schedule->command('Markets:download')->monthly();
         $schedule->command('Prices:download')->everyFiveMinutes();
-        $schedule->command('Overview:download')->everyFiveMinutes();             
-             
+        $schedule->command('Overview:download')->everyFiveMinutes();
     }
 
     /**
