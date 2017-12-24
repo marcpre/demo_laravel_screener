@@ -102,7 +102,6 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Symbol</th>
                                 <th scope="col">Sector</th>
-                                <th scope="col">Industry</th>
                                 <th scope="col">Country of Origin</th>
                                 <th scope="col">Market Cap.</th>
                                 <th scope="col">Circulating Supply</th>
@@ -120,13 +119,12 @@
                                 {{ $cryptos->name }}
                                 </td>
                                 <td>{{ $cryptos->symbol }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $cryptos->sector }}</td>
+                                <td>{{ $cryptos->country_of_origin }}</td>
                                 <td>${{ number_format($cryptos->market_cap, 2, ',', '.') }}</td>
                                 <td>{{ number_format($cryptos->circulatingSupply, 2, ',', '.') }} {{ $cryptos->symbol }}</td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $cryptos->current_price }}</td>
+                                <td>{{ $cryptos->change }}</td>
                                 <td>${{ number_format($cryptos->volume_24h, 2, ',', '.') }}</td>
                             </tr>
                             @endforeach

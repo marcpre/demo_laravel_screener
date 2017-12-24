@@ -108,11 +108,14 @@ class PricesCommand extends Command
                 'symbol',
                 'name',
                 'exchanges_id',
+                'markets.id',
             ))->toArray();
-        // print_r($symbolsArray);
+        print_r($symbolsArray);
 
         foreach ($symbolsArray as $key => $v) {
             $tick = $exchangeObj->fetch_ticker($symbolsArray[$key]->symbol);
+            //var_dump($tick);
+            
             // exchange time conversion
             $exch_datetime = date("Y-m-d g:i:s", strtotime($tick['datetime']));
 
@@ -129,6 +132,7 @@ class PricesCommand extends Command
                 ], [
                     'ask' => $tick['ask'],
                     'exchanges_id' => $symbolsArray[$key]->exchanges_id,
+                    'markets_id' => $symbolsArray[$key]->id,// markets_id
                     'exch_datetime' => $exch_datetime,
                     'high' => $tick['high'],
                     'low' => $tick['low'],

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Log;
 
 class GetAllDataCommand extends Command
 {
@@ -37,13 +38,16 @@ class GetAllDataCommand extends Command
      */
     public function handle()
     {
-        $this->call('migrate:fresh', ['--seed' => 'default']);
-        $this->call('Instruments:download');
-        $this->call('Financials:download');
-        $this->call('Exchanges:download');
-        $this->call('Markets:download');
-        $this->call('Overview:download');
+        try {
+            $this->call('migrate:fresh', ['--seed' => 'default']);
+            $this->call('Instruments:download');
+            $this->call('Financials:download');
+            $this->call('Exchanges:download');
+            $this->call('Markets:download');
+            $this->call('Prices:download');
+            $this->call('Overview:download');
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+        }
     }
 }
-
-

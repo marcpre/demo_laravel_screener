@@ -16,6 +16,7 @@ class CreatePricesTable extends Migration
         Schema::create('prices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('exchanges_id')->default('999999');
+            $table->integer('markets_id')->default('999999');
             $table->string('symbol')->default('DEFAULT_VALUE');
             $table->dateTime('exch_datetime');
             $table->decimal('high', 40, 9)->default('-99999999999999')->nullable($value = true);
