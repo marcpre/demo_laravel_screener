@@ -94,7 +94,7 @@
                         </li>
                     </ul>
                     {{-- Dropdowns Ende --}}
-                    <div>Total: 7116 </div>
+                    <div>Total: {{ $storedOverview->total() }} </div>
                     <table class="table">
                         <thead>
                             <tr>
@@ -112,9 +112,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($storedOverview as $cryptos)
+                        @foreach ($storedOverview as $key => $cryptos)
                             <tr>
-                                <td>{{ $cryptos->id }}</td>
+                                <td>{{ ++$key }}</td>
                                 <td>
                                 <img style="height: 16px; width: 16px;" src="{{ asset('images')}}/{{ $cryptos->image }}" />
                                 {{ $cryptos->name }}
@@ -123,11 +123,11 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>{{ $cryptos->market_cap }}</td>
-                                <td>{{ $cryptos->circulatingSupply }}</td>
+                                <td>${{ number_format($cryptos->market_cap, 2, ',', '.') }}</td>
+                                <td>{{ number_format($cryptos->circulatingSupply, 2, ',', '.') }} {{ $cryptos->symbol }}</td>
                                 <td></td>
                                 <td></td>
-                                <td>{{ $cryptos->volume_24h }}</td>
+                                <td>${{ number_format($cryptos->volume_24h, 2, ',', '.') }}</td>
                             </tr>
                             @endforeach
                         </tbody>
