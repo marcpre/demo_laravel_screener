@@ -111,16 +111,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($storedOverview as $key => $cryptos)
+                            @foreach ($storedOverview as $key => $cryptos)
                             <tr>
                                 <td>{{ ++$key }}</td>
                                 <td>
-                                <img style="height: 16px; width: 16px;" src="{{ asset('images')}}/{{ $cryptos->image }}" />
-                                {{ $cryptos->name }}
+                                    <img style="height: 16px; width: 16px;" src="{{ asset('images')}}/{{ $cryptos->image }}" /> {{ $cryptos->name }}
                                 </td>
                                 <td>{{ $cryptos->symbol }}</td>
-                                <td>{{ $cryptos->sector }}</td>
-                                <td>{{ $cryptos->country_of_origin }}</td>
+                                <td>{{ $cryptos->sector }}
+                                    <a href="" data-toggle="modal" data-target="#modalSector">
+                                        <sup> EDIT</sup>
+                                        <a>
+                                </td>
+                                <td>{{ $cryptos->country_of_origin }}
+                                    <a href="" data-toggle="modal" data-target="#modalCountry">
+                                        <sup> EDIT</sup>
+                                        <a>
+                                </td>
                                 <td>${{ number_format($cryptos->market_cap, 2, ',', '.') }}</td>
                                 <td>{{ number_format($cryptos->circulatingSupply, 2, ',', '.') }} {{ $cryptos->symbol }}</td>
                                 <td>{{ $cryptos->current_price }}</td>
@@ -134,10 +141,69 @@
                     <div class="row text-center">
                         {{ $storedOverview->links() }}
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+{{-- Modal Sector --}}
+<div class="modal fade" id="modalSector" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="textinput">Sector: </label>
+                            <div class="col-md-4">
+                                <input id="textinput" name="textinput" placeholder="Insert Sector" class="form-control input-md" type="text">
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Modal Country of Origin --}}
+<div class="modal fade" id="modalCountry" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="textinput">Country of Origin: </label>
+                            <div class="col-md-4">
+                                <input id="textinput" name="textinput" placeholder="Insert Country of Origin" class="form-control input-md" type="text">
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 @endsection

@@ -76,7 +76,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/dropdown.js') }}"></script>    
+    <script src="{{ asset('js/dropdown.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>    
     <script src="{{ asset('js/app.js') }}"></script>
  
 </body>
