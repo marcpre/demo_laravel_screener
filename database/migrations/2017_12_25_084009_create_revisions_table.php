@@ -15,7 +15,6 @@ class CreateRevisionsTable extends Migration
     {
         Schema::create('revisions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('overview_id')->default('999999');
             $table->boolean('revision_status')->default(false); // TRUE means revision done
             $table->timestamps();
         });

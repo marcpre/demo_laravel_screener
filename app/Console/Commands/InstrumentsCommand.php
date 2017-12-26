@@ -3,10 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Instruments;
-use Log;
+use App\Revision;
 use Goutte\Client;
 use Illuminate\Console\Command;
 use Intervention\Image\ImageManagerStatic as Image;
+use Log;
 
 class InstrumentsCommand extends Command
 {
@@ -68,8 +69,8 @@ class InstrumentsCommand extends Command
             array_push($symbolArr, $node->text());
         });
         // get Links from Subpages
-        foreach ($urlArr as $key => $v) {
-        // for ($key = 0; $key < 1000; $key++) {
+        //foreach ($urlArr as $key => $v) {
+        for ($key = 0; $key < 10; $key++) {
             try {
                 $subCrawler = $client->request('GET', $urlArr[$key]);
                 $image = $subCrawler->filter($img)->extract(array('src'));
@@ -83,20 +84,38 @@ class InstrumentsCommand extends Command
 
         //Multi Dimensional Array
         foreach ($coinArr as $key => $v) {
-        // for ($key = 0; $key < 1000; $key++) {
+            // for ($key = 0; $key < 1000; $key++) {
             try {
                 ///save image to public folder
                 $fileName = basename($imgArr[$key]);
                 print_r($fileName . "\n");
-                if(!file_exists(public_path('images/' . $fileName))){
+                if (!file_exists(public_path('images/' . $fileName))) {
                     Image::make($imgArr[$key])->save(public_path('images/' . $fileName));
                 }
-                                
+
                 if ($fileName != "") {
+                    //Check if a revision is already available
+                    //Set revision to 'true'
+                    //create new Revision
+                    $instru = Instruments::where('name', '=', $coinArr[$key])->first();
+                    var_dump(Revision::where('id', '=', $instru->revisions_id)->first());
+                    // if no revision id exists - gives NULL back - create new revision_id else skip
+                    if (Revision::where('id', '=', $instru->revisions_id)->first() ===  NULL) {
+                        $revision = new Revision();
+                        $revision->revision_status = true;
+                        $revision->save();
+                        print_r("Revision id: " . $revision->id . "\n");
+                    }
+
+                    //revision id
+                    $rid = ($revision->id === NULL ? $instru->revisions_id : $revision->id);
+                    var_dump($rid);
+                    // create instrument
                     Instruments::updateOrCreate([
                         'name' => $coinArr[$key],
                     ], [
                         'name' => $coinArr[$key],
+                        'revisions_id' => $rid,
                         'symbol' => $symbolArr[$key],
                         'image' => $fileName,
                     ]);

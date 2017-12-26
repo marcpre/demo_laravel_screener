@@ -60,14 +60,15 @@ ORDER BY instruments.id ASC');
             ->get()
             ->toArray();
         $overviewArray = (array) $result;
-        
+
         // print_r($overviewArray[1]);
         // print_r($overviewArray[1]->name . "\n");
 
         foreach ($overviewArray as $key => $v) {
             print_r($key . " - " . $overviewArray[$key]->symbol . "\n");
-            
+
             try {
+                //create overview
                 $overview = Overview::updateOrCreate([
                     'symbol' => $overviewArray[$key]->symbol,
                 ], [
