@@ -11,8 +11,7 @@ class UsersTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-               
+    {       
         $user = new User();
         $user->name = 'user';
         $user->email = 'user@user.com';
