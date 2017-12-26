@@ -69,8 +69,8 @@ class InstrumentsCommand extends Command
             array_push($symbolArr, $node->text());
         });
         // get Links from Subpages
-        //foreach ($urlArr as $key => $v) {
-        for ($key = 0; $key < 10; $key++) {
+        foreach ($urlArr as $key => $v) {
+        // for ($key = 0; $key < 10; $key++) {
             try {
                 $subCrawler = $client->request('GET', $urlArr[$key]);
                 $image = $subCrawler->filter($img)->extract(array('src'));
@@ -98,18 +98,17 @@ class InstrumentsCommand extends Command
                     //Set revision to 'true'
                     //create new Revision
                     $instru = Instruments::where('name', '=', $coinArr[$key])->first();
-                    var_dump(Revision::where('id', '=', $instru->revisions_id)->first());
+                    $i = $instru ? Revision::where('id', '=', $instru->revisions_id)->first() : null;
                     // if no revision id exists - gives NULL back - create new revision_id else skip
-                    if (Revision::where('id', '=', $instru->revisions_id)->first() ===  NULL) {
-                        $revision = new Revision();
+                    $revision = new Revision(); // create object because of scope outside
+                    if ($i ===  NULL) {
                         $revision->revision_status = true;
                         $revision->save();
-                        print_r("Revision id: " . $revision->id . "\n");
+                       // print_r("Revision id: " . $revision->id . "\n");
                     }
 
                     //revision id
                     $rid = ($revision->id === NULL ? $instru->revisions_id : $revision->id);
-                    var_dump($rid);
                     // create instrument
                     Instruments::updateOrCreate([
                         'name' => $coinArr[$key],
