@@ -185,12 +185,14 @@
                 <h4 class="modal-title">Edit</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal">
+                <form action="{{ route('revision.updateCoo') }}" method='POST' class="form-horizontal">
+                    {{ csrf_field() }}
+                    <input type="hidden" name='_method' value='PUT'>
                     <fieldset>
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="textinput">Country of Origin: </label>
                             <div class="col-md-4">
-                                <input id="textinput" name="textinput" placeholder="Insert Country of Origin" class="form-control input-md" type="text">
+                                <input id="textinput" name="tokenUnderEdit" placeholder="Insert Country of Origin" class="form-control input-md" type="text">
                             </div>
                         </div>
                     </fieldset>

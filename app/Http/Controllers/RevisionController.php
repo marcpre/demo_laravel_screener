@@ -69,14 +69,18 @@ class RevisionController extends Controller
      */
     public function update(Request $request, Revision $revision)
     {
+        
         $this->validate($request, [
-            'updatedTaskName' => 'required|min:3|max:190',
+            'tokenUnderEdit' => 'required|min:3|max:190',
         ]);
-        $task->name = $request->updatedTaskName;
+        $c->name = $request->tokenUnderEdit;
+        print_r($c->name);
+        /*
         $task->user_id = \Auth::id();        
         $task->save();
         Session::flash('success', 'Task #' . $task->id . ' has been successfully updated.');
         return redirect()->route('tasks.index');
+        */
     }
 
     /**

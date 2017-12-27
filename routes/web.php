@@ -19,3 +19,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/', 'OverviewController@index');
+
+Route::post('/sector', 'RevisionController@update')->name('revision.updateSec');
+
+Route::post('/countryOfOrigin', 'RevisionController@update')->name('revision.updateCoo');
+
+
