@@ -20,8 +20,10 @@ Auth::routes();
 
 Route::get('/', 'OverviewController@index');
 
-Route::post('/sector', 'RevisionController@update')->name('revision.updateSec');
+Route::get('/sector', 'RevisionController@edit')->name('revision.editSec');
+Route::put('/sector', 'RevisionController@update')->name('revision.updateSec');
 
-Route::post('/countryOfOrigin', 'RevisionController@update')->name('revision.updateCoo');
+Route::get('/countryOfOrigin', 'RevisionController@edit')->name('revision.editCoo');
+Route::put('/countryOfOrigin', 'RevisionController@update')->name('revision.updateCoo');
 
 

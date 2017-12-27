@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Revision;
+use Debugbar;
 use Illuminate\Http\Request;
 
 class RevisionController extends Controller
@@ -71,9 +72,10 @@ class RevisionController extends Controller
     {
         
         $this->validate($request, [
-            'tokenUnderEdit' => 'required|min:3|max:190',
+            'tokenUnderEdit' => 'required|min:3|max:30',
         ]);
         $c->name = $request->tokenUnderEdit;
+        Debugbar::info($c->name);
         print_r($c->name);
         /*
         $task->user_id = \Auth::id();        

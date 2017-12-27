@@ -119,12 +119,12 @@
                                 </td>
                                 <td>{{ $cryptos->symbol }}</td>
                                 <td>{{ $cryptos->sector }}
-                                    <a href="" data-toggle="modal" data-target="#modalSector">
+                                    <a href="{{route('revision.editSec',$cryptos->id)}}" data-toggle="modal" data-target="#modalSector">
                                         <sup> EDIT</sup>
                                         <a>
                                 </td>
                                 <td>{{ $cryptos->country_of_origin }}
-                                    <a href="" data-toggle="modal" data-target="#modalCountry">
+                                    <a href="{{route('revision.editCoo',$cryptos->id)}}" data-toggle="modal" data-target="#modalCountry">
                                         <sup> EDIT</sup>
                                         <a>
                                 </td>
@@ -148,64 +148,7 @@
     </div>
 </div>
 
-{{-- Modal Sector --}}
-<div class="modal fade" id="modalSector" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="textinput">Sector: </label>
-                            <div class="col-md-4">
-                                <input id="textinput" name="textinput" placeholder="Insert Sector" class="form-control input-md" type="text">
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- Modal Country of Origin --}}
-<div class="modal fade" id="modalCountry" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit</h4>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('revision.updateCoo') }}" method='POST' class="form-horizontal">
-                    {{ csrf_field() }}
-                    <input type="hidden" name='_method' value='PUT'>
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="textinput">Country of Origin: </label>
-                            <div class="col-md-4">
-                                <input id="textinput" name="tokenUnderEdit" placeholder="Insert Country of Origin" class="form-control input-md" type="text">
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
+@include('modals.countryOfOrigin')
+@include('modals.sector')
 
 @endsection
