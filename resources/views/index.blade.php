@@ -1,4 +1,5 @@
-@extends('layouts.app') @section('content')
+@extends('layouts.app') 
+@section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -119,12 +120,10 @@
                                 </td>
                                 <td>{{ $cryptos->symbol }}</td>
                                 <td>{{ $cryptos->sector }}
-                                    <a href="{{route('editToken.edit',$cryptos->id)}}" data-toggle="modal" data-target="#modalSector">
-                                        <sup> EDIT</sup>
-                                        <a>
+                                    <a href=""> <sup> EDIT</sup> <a>
                                 </td>
                                 <td>{{ $cryptos->country_of_origin }}
-                                    <a href="{{route('editToken.edit',$cryptos->id)}}" 
+                                    <a href="" 
                                     data-id="{{ $cryptos->id }}"
                                     data-title="{{ $cryptos->symbol }}"
                                     data-toggle="modal" 
@@ -161,7 +160,7 @@
                 <h4 class="modal-title">Edit</h4>
             </div>
             <div class="modal-body">
-                <form action="/edit/{id}" method='POST' class="form-horizontal" id="modal-coo-form">
+                <form action="" method='POST' class="form-horizontal" id="modal-coo-form">
                     {{ csrf_field() }}
                     <input type="hidden" name='editID' value=''>
                     <fieldset>
@@ -181,25 +180,5 @@
         </div>
     </div>
 </div>
-
-{{--
-<script>
-    $(document).on("click", ".#modalCountry", function () {
-        var id = $(this).val();
-        url = "/data/" + id;
-        $.ajax({
-            url: url,
-            method: "get"
-        }).done(function (response) {
-            //Setting input values
-            $("input[name='editID']").val(id);
-            $("input[name='tokenUnderEdit']").val(response.tokenUnderEdit);
-
-            //Setting submit url
-            $("modal-coo-form").attr("action", "/edit/" + id)
-        });
-    });
-</script>
- @include('modals.sector') --}}
 
 @endsection
