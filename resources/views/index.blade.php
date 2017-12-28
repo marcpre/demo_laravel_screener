@@ -1,5 +1,4 @@
-@extends('layouts.app') 
-@section('content')
+@extends('layouts.app') @section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -120,16 +119,14 @@
                                 </td>
                                 <td>{{ $cryptos->symbol }}</td>
                                 <td>{{ $cryptos->sector }}
-                                    <a href=""> <sup> EDIT</sup> <a>
                                 </td>
                                 <td>{{ $cryptos->country_of_origin }}
-                                    <a href="" 
-                                    data-id="{{ $cryptos->id }}"
-                                    data-title="{{ $cryptos->symbol }}"
-                                    data-toggle="modal" 
-                                    data-target="#modalCountry">
+                                    {{-- <a href="" data-id="{{ $cryptos->id }}" data-title="{{ $cryptos->country_of_origin }}" data-toggle="modal" data-target="#modalWindow">
                                         <sup> EDIT</sup>
-                                        <a>
+                                        <a> --}}
+                                            <a id="btn_add" name="btn_add" data-target="#myModal">
+                                                <sup> EDIT</sup>
+                                            </a>
                                 </td>
                                 <td>${{ number_format($cryptos->market_cap, 2, ',', '.') }}</td>
                                 <td>{{ number_format($cryptos->circulatingSupply, 2, ',', '.') }} {{ $cryptos->symbol }}</td>
@@ -144,7 +141,6 @@
                     <div class="row text-center">
                         {{ $storedOverview->links() }}
                     </div>
-
                 </div>
             </div>
         </div>
@@ -152,30 +148,33 @@
 </div>
 
 {{-- Modal Country of Origin --}}
-<div class="modal fade" id="modalCountry" role="dialog">
-    <div class="modal-dialog modal-lg">
+<!-- Passing BASE URL to AJAX -->
+<input id="url" type="hidden" value="{{ \Request::url() }}">
+
+<!-- MODAL SECTION -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Edit</h4>
             </div>
             <div class="modal-body">
-                <form action="" method='POST' class="form-horizontal" id="modal-coo-form">
-                    {{ csrf_field() }}
-                    <input type="hidden" name='editID' value=''>
-                    <fieldset>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="textinput">Country of Origin: </label>
-                            <div class="col-md-4">
-                                <input id="textinput" name="tokenUnderEdit" placeholder="Insert Country of Origin" class="form-control input-md" type="text">
-                            </div>
+                <form id="frmProducts" name="frmProducts" class="form-horizontal" novalidate="">
+                {{ csrf_field() }}                    
+                    <div class="form-group error">
+                        <label for="inputName" class="col-sm-3 control-label">Name: </label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control has-error" id="name" name="name" placeholder="Country of Origin" value="">
                         </div>
-                    </fieldset>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-primary" id="btn-save" value="update">Edit Entry</button>
+                <input type="hidden" id="product_id" name="product_id" value="0">
             </div>
         </div>
     </div>

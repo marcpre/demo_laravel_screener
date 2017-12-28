@@ -26,5 +26,10 @@ Route::get('/', 'OverviewController@index');
 // Route::get('/countryOfOrigin', 'RevisionController@edit')->name('revision.editCoo');
 // Route::post('/edit/{id}', 'RevisionController@update')->name('revision.updateCoo');
 
-Route::resource('editToken','RevisionController');
+// Route::resource('editToken','RevisionController');
+
+//update Token
+//Route::post('editToken', 'RevisionController@update');
+
+Route::put('/edit/{token_id}', 'RevisionController@update');
 

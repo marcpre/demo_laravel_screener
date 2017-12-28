@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Revision;
 use Debugbar;
+use Log;
 use Illuminate\Http\Request;
 
 class RevisionController extends Controller
@@ -68,21 +69,25 @@ class RevisionController extends Controller
      * @param  \App\Revision  $revision
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Revision $revision)
+    public function update(Request $request, $revision_id)
     {
-        
         $this->validate($request, [
-            'tokenUnderEdit' => 'required|min:3|max:30',
+            'name' => 'min:3|max:30',
         ]);
-        $c->name = $request->tokenUnderEdit;
-        Debugbar::info($c->name);
+        
+        $revision = Revision::find($revision_id);
+
+        $revision->name = $request->name;
+        Debugbar::info("name: " . $c->name);
+        Log::info($revision->name);
         print_r($c->name);
         /*
         $task->user_id = \Auth::id();        
         $task->save();
-        Session::flash('success', 'Task #' . $task->id . ' has been successfully updated.');
-        return redirect()->route('tasks.index');
         */
+        Session::flash('success', 'Thank you for your contribution!');
+        return redirect()->route('index');
+        
     }
 
     /**
