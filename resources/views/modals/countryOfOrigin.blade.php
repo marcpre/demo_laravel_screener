@@ -7,7 +7,7 @@
                 <h4 class="modal-title">Edit</h4>
             </div>
             <div class="modal-body">
-                <form action="/edit/{id}" method='POST' class="form-horizontal">
+                <form action="/edit/{id}" method='POST' class="form-horizontal" id="modal-coo-form">
                     {{ csrf_field() }}
                     <input type="hidden" name='editID' value=''>
                     <fieldset>
@@ -38,14 +38,12 @@
         }).done(function (response) {
             //Setting input values
             $("input[name='editID']").val(id);
-            $("input[name='company']").val(response.company);
-            $("input[name='to']").val(response.to);
-            $("input[name='from']").val(response.from);
+            $("input[name='tokenUnderEdit']").val(response.tokenUnderEdit);
 
             //Setting submit url
-            $("modal-form").attr("action", "/profile/employment/edit/" + id)
+            $("modal-coo-form").attr("action", "/edit/" + id)
         });
     });
 </script>
 
-{{ https://stackoverflow.com/questions/42415926/edit-db-record-with-modal-window }}
+{{-- https://stackoverflow.com/questions/42415926/edit-db-record-with-modal-window --}}

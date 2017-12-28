@@ -77,8 +77,12 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/dropdown.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>    
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
- 
+    
+    {{-- Own Scripts --}}
+    {{-- <script src="{{ asset('js/modal-window.js') }}"></script> --}}
+    
 </body>
 </html>
