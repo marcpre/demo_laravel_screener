@@ -16,9 +16,12 @@ Route::get('/', function () {
     return view('index');
 });
 */
-Auth::routes();
+Route::get('/',[
+    'as' => 'index',
+    'uses' => 'OverviewController@index'
+]);
 
-Route::get('/', 'OverviewController@index');
+Auth::routes();
 
 // Route::get('/sector', 'RevisionController@edit')->name('revision.editSec');
 // Route::put('/sector', 'RevisionController@update')->name('revision.updateSec');
@@ -31,5 +34,5 @@ Route::get('/', 'OverviewController@index');
 //update Token
 //Route::post('editToken', 'RevisionController@update');
 
-Route::put('/edit/{token_id}', 'RevisionController@update');
+Route::put('/edit/{token_id}', 'InstrumentsController@store');
 

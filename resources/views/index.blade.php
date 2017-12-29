@@ -6,11 +6,27 @@
                 <div class="panel-heading">Screener</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
+
+                    {{-- display success message --}} 
+                    
+                    @if (Session::has('success'))
                     <div class="alert alert-success">
-                        {{ session('status') }}
+                        <strong>Success:</strong> {{ Session::get('success') }}
                     </div>
-                    @endif {{-- Dropdowns Start --}}
+                    @endif {{-- display error message --}} 
+                    
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong>
+                        <ul>
+                            @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif 
+                    
+                    {{-- Dropdowns Start --}}
                     <ul class="nav nav-pills" role="tablist">
                         <li role="presentation">Order: </li>
                         <li role="presentation" class="dropdown">
@@ -112,7 +128,7 @@
                         </thead>
                         <tbody>
                             @foreach ($storedOverview as $key => $cryptos)
-                            <tr>
+                            <tr id="cryptos{{$cryptos->id}}">
                                 <td>{{ ++$key }}</td>
                                 <td>
                                     <img style="height: 16px; width: 16px;" src="{{ asset('images')}}/{{ $cryptos->image }}" /> {{ $cryptos->name }}
@@ -120,13 +136,10 @@
                                 <td>{{ $cryptos->symbol }}</td>
                                 <td>{{ $cryptos->sector }}
                                 </td>
-                                <td>{{ $cryptos->country_of_origin }}
-                                    {{-- <a href="" data-id="{{ $cryptos->id }}" data-title="{{ $cryptos->country_of_origin }}" data-toggle="modal" data-target="#modalWindow">
+                                <td>{{ $cryptos->country_of_origin }} 
+                                    <a id="btn_add" name="btn_add" data-target="#myModal">
                                         <sup> EDIT</sup>
-                                        <a> --}}
-                                            <a id="btn_add" name="btn_add" data-target="#myModal">
-                                                <sup> EDIT</sup>
-                                            </a>
+                                    </a>
                                 </td>
                                 <td>${{ number_format($cryptos->market_cap, 2, ',', '.') }}</td>
                                 <td>{{ number_format($cryptos->circulatingSupply, 2, ',', '.') }} {{ $cryptos->symbol }}</td>
@@ -163,7 +176,7 @@
             </div>
             <div class="modal-body">
                 <form id="frmProducts" name="frmProducts" class="form-horizontal" novalidate="">
-                {{ csrf_field() }}                    
+                    {{ csrf_field() }}
                     <div class="form-group error">
                         <label for="inputName" class="col-sm-3 control-label">Name: </label>
                         <div class="col-sm-9">
@@ -174,7 +187,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="btn-save" value="update">Edit Entry</button>
-                <input type="hidden" id="product_id" name="product_id" value="0">
+                <input type="hidden" id="cryptos_id" name="cryptos_id" value="1">
             </div>
         </div>
     </div>

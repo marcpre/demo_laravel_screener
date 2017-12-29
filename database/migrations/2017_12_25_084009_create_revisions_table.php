@@ -15,7 +15,7 @@ class CreateRevisionsTable extends Migration
     {
         Schema::create('revisions', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('revision_status')->default(false); // TRUE means revision done
+            $table->boolean('revision_status')->default(false); // TRUE means revision open else closed
             $table->timestamps();
         });
     }
