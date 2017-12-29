@@ -6,25 +6,6 @@
                 <div class="panel-heading">Screener</div>
 
                 <div class="panel-body">
-
-                    {{-- display success message --}} 
-                    
-                    @if (Session::has('success'))
-                    <div class="alert alert-success">
-                        <strong>Success:</strong> {{ Session::get('success') }}
-                    </div>
-                    @endif {{-- display error message --}} 
-                    
-                    @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <strong>Error:</strong>
-                        <ul>
-                            @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif 
                     
                     {{-- Dropdowns Start --}}
                     <ul class="nav nav-pills" role="tablist">
@@ -135,9 +116,12 @@
                                 </td>
                                 <td>{{ $cryptos->symbol }}</td>
                                 <td>{{ $cryptos->sector }}
+                                    <a id="sec{{ $cryptos->id }}" name="sector" value="{{ $cryptos->id }}" class="open_modal" data-target="#myModal">
+                                        <sup> EDIT</sup>
+                                    </a>
                                 </td>
                                 <td>{{ $cryptos->country_of_origin }} 
-                                    <a id="coo{{ $cryptos->id }}" value="{{ $cryptos->id }}" class="open_modal" data-target="#myModal">
+                                    <a id="coo{{ $cryptos->id }}" name="country_of_origin" value="{{ $cryptos->id }}" class="open_modal" data-target="#myModal">
                                         <sup> EDIT</sup>
                                     </a>
                                 </td>
@@ -172,15 +156,35 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Edit</h4>
+                <h4 class="modal-title" id="myModalLabel">Edit:</h4>
             </div>
             <div class="modal-body">
+            
+            {{-- display success message --}} 
+                    
+                    @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        <strong>Success:</strong> {{ Session::get('success') }}
+                    </div>
+                    @endif {{-- display error message --}} 
+                    
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong>
+                        <ul>
+                            @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif 
+            
                 <form id="frmProducts" name="frmProducts" class="form-horizontal" novalidate="">
                     {{ csrf_field() }}
                     <div class="form-group error">
                         <label for="inputName" class="col-sm-3 control-label">Name: </label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control has-error" id="name" name="name" placeholder="Country of Origin" value="">
+                            <input type="text" class="form-control has-error" id="name" name="name" placeholder="Insert value" value="">
                         </div>
                     </div>
                 </form>
@@ -188,6 +192,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="btn-save" value="add">Edit Entry</button>
                 <input type="hidden" id="cryptos_id" name="cryptos_id" value="0">
+                <input type="hidden" id="secOrcoo" name="secOrcoo" value="0">
             </div>
         </div>
     </div>

@@ -1,20 +1,30 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
     //get base URL *********************
     var url = $('#url').val();
-    console.log("url: " + url)
-    
-    //display modal form for product EDIT ***************************
-    $(document).on('click','.open_modal',function(){
+
+    //display modal form ***************************
+    $(document).on('click', '.open_modal', function () {
         var cryptos_id = $(this).attr('value');
+        var secOrcoo = $(this).attr('name');
+
         // Populate Data in Edit Modal Form
         $.ajax({
             type: "GET",
             url: url + '/token/' + cryptos_id,
             success: function (data) {
-                console.log(data);
                 $('#cryptos_id').val(data.id);
-                $('#name').val(data.name);
+                // get country of origin or sector
+                if (secOrcoo === "country_of_origin") {
+                    $('#name').val(data.country_of_origin);
+                    $('#secOrcoo').val("country_of_origin");
+                    $("#myModalLabel").append(' <b class="pseudo-text">Country of Origin</b>');
+                }
+                if (secOrcoo === "sector") {
+                    $('#name').val(data.sector);
+                    $('#secOrcoo').val("sector");
+                    $("#myModalLabel").append(' <b class="pseudo-text">Sector</b>');
+                }
                 $('#btn-save').val("update");
                 $('#myModal').modal('show');
             },
@@ -24,7 +34,7 @@ $(document).ready(function(){
         });
     });
 
-    //create new product / update existing product ***************************
+    //update existing instruments record ***************************
     $("#btn-save").click(function (e) {
         $.ajaxSetup({
             headers: {
@@ -35,27 +45,26 @@ $(document).ready(function(){
         e.preventDefault();
         var formData = {
             name: $('#name').val(),
+            secOrcoo: $('#secOrcoo').val(),
         }
-        console.log("formData: " + formData);
 
         var type = "POST"; //for creating new resource
         var cryptos_id = $('#cryptos_id').val();;
         var my_url = url + '/token/edit/' + cryptos_id;
-        console.log("cryptos_id: " + cryptos_id)
-        console.log("my_url: " + my_url)
-        console.log("formData: " + formData);
+        // alert("formData: " + JSON.stringify(formData));
+
         $.ajax({
             type: type,
             url: my_url,
             data: formData,
             dataType: 'json',
             success: function (data) {
-                console.log("data: " + data);
-                $('#frmProducts').trigger("reset"); 
+                $('#frmProducts').trigger("reset");
+                $( ".pseudo-text" ).remove();
                 $('#myModal').modal('hide')
             },
-            error: function (data) {
-                console.log('Error:', data);
+            error: function (error) {
+                console.log("Error: " + error);
             }
         });
     });
