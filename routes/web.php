@@ -34,5 +34,10 @@ Auth::routes();
 //update Token
 //Route::post('editToken', 'RevisionController@update');
 
-Route::put('/edit/{token_id}', 'InstrumentsController@store');
+Route::post('/token/edit/{token_id}', 'InstrumentsController@store');
+
+// Populate Data in Edit Modal Form
+Route::get('/token/{token_id?}', 'InstrumentsController@show');
+
+
 

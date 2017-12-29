@@ -137,7 +137,7 @@
                                 <td>{{ $cryptos->sector }}
                                 </td>
                                 <td>{{ $cryptos->country_of_origin }} 
-                                    <a id="btn_add" name="btn_add" data-target="#myModal">
+                                    <a id="coo{{ $cryptos->id }}" value="{{ $cryptos->id }}" class="open_modal" data-target="#myModal">
                                         <sup> EDIT</sup>
                                     </a>
                                 </td>
@@ -186,8 +186,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btn-save" value="update">Edit Entry</button>
-                <input type="hidden" id="cryptos_id" name="cryptos_id" value="1">
+                <button type="button" class="btn btn-primary" id="btn-save" value="add">Edit Entry</button>
+                <input type="hidden" id="cryptos_id" name="cryptos_id" value="0">
             </div>
         </div>
     </div>

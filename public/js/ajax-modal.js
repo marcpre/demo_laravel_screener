@@ -2,20 +2,15 @@ $(document).ready(function(){
 
     //get base URL *********************
     var url = $('#url').val();
-
-    //display modal form for creating new product *********************
-    $('#btn_add').click(function(){
-        $('#btn-save').val("add");
-        $('#myModal').modal('show');
-    });
-
+    console.log("url: " + url)
+    
     //display modal form for product EDIT ***************************
     $(document).on('click','.open_modal',function(){
-        var cryptos_id = $(this).val();
+        var cryptos_id = $(this).attr('value');
         // Populate Data in Edit Modal Form
         $.ajax({
             type: "GET",
-            url: url + '/edit/' + cryptos_id,
+            url: url + '/token/' + cryptos_id,
             success: function (data) {
                 console.log(data);
                 $('#cryptos_id').val(data.id);
@@ -40,16 +35,12 @@ $(document).ready(function(){
         e.preventDefault();
         var formData = {
             name: $('#name').val(),
-            //price: $('#price').val(),
         }
         console.log("formData: " + formData);
 
-        //used to determine the http verb to use [add=POST], [update=PUT]
-        var state = $('#btn-save').val();
-        var type = "PUT"; //for creating new resource
+        var type = "POST"; //for creating new resource
         var cryptos_id = $('#cryptos_id').val();;
-        var my_url = url + '/edit/' + cryptos_id;
-        console.log("state: " + state)
+        var my_url = url + '/token/edit/' + cryptos_id;
         console.log("cryptos_id: " + cryptos_id)
         console.log("my_url: " + my_url)
         console.log("formData: " + formData);

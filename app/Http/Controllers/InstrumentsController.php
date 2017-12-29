@@ -48,9 +48,12 @@ class InstrumentsController extends Controller
      * @param  \App\Instruments  $instruments
      * @return \Illuminate\Http\Response
      */
-    public function show(Instruments $instruments)
-    {
-        //
+    public function show($instrumentsId)
+    {        
+        Log::info("instru: " . $instrumentsId);
+        
+        $instru = Instruments::find($instrumentsId);
+        return response()->json($instru);
     }
 
     /**
