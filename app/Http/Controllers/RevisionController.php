@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Log;
+use DB;
 
 class RevisionController extends Controller
 {
@@ -15,27 +17,33 @@ class RevisionController extends Controller
     {
 
         /* SQL Query:
-        $overviewArray = DB::raw('SELECT *
-        FROM instruments
-        LEFT join financials on instruments.id=financials.instruments_id
-        WHERE financials.id IN
-        ( SELECT MAX(financials.id)
-        FROM financials
-        GROUP BY financials.instruments_id )
-        ORDER BY instruments.id ASC');
-         */
-        $res = DB::table('instruments')
-            ->innerJoin('revisions', 'revisions.id', '=', 'instruments.id')
+SELECT * 
+FROM instruments AS p 
+INNER JOIN revisions AS r ON p.revisions_id = r.id 
+WHERE p.name IN ( 
+	SELECT p.name FROM instruments AS p 
+	INNER JOIN revisions AS r ON p.revisions_id = r.id 
+	GROUP BY p.name 
+	HAVING COUNT(IFNULL(r.revision_status, 0)) > 1) 
+ORDER BY p.name 
+        */
+        $revArray = DB::table('instruments')
+            ->join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
             ->whereIn('instruments.name', function ($query) {
-                $query->select(DB::raw('MAX(financials.id)'))->
-                    from('financials')->
-                    groupBy('financials.instruments_id');})
-            ->orderBy('instruments.id')
-            ->get()
-            ->toArray();
-        $resArray = (array) $res;
+                $query->select('instruments.name')
+                    ->from('instruments')
+                    ->join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
+                    ->groupBy('instruments.name')
+                    ->havingRaw('COUNT(IFNULL(revisions.revision_status, 0)) > 1');
+                })
+            ->orderBy('instruments.name')
+            ->get();
+//            ->toArray();
+//        $revArray = (array) $res;
+        
+        Log::info($revArray);
 
-        return view('revision.index')->with('revision', $resArray);
+        return view('revision.rindex')->with('revArray', $revArray);
     }
 
     /**
