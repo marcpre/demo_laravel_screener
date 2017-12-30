@@ -88,7 +88,7 @@ class InstrumentsController extends Controller
         } else {
             try {
                 $revision = new Revision();
-                $revision->revision_status = false;
+                $revision->revision_status = null;
                 $revision->save();
 
                 $i = Instruments::find($instruments_id);
