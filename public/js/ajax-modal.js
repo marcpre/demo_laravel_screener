@@ -59,9 +59,29 @@ $(document).ready(function () {
             data: formData,
             dataType: 'json',
             success: function (data) {
-                $('#frmProducts').trigger("reset");
-                $( ".pseudo-text" ).remove();
-                $('#myModal').modal('hide')
+                $('.errorName').addClass('hidden');
+                
+                if ((data.errors)) {
+                    setTimeout(function () {
+                        $('#myModal').modal('show');
+                        toastr.error('Validation error!', 'Error Alert', {
+                            timeOut: 5000
+                        });
+                    }, 500);
+
+                    if (data.errors.name) {
+                        $('.errorName').removeClass('hidden');
+                        $('.errorName').text(data.errors.name);
+                    }
+                } else {
+                    toastr.success('Thank you for your contribution!', 'Success Alert', {
+                        timeOut: 5000
+                    });
+                    
+                    $('#frmProducts').trigger("reset");
+                    $(".pseudo-text").remove();
+                    $('#myModal').modal('hide')
+                }
             },
             error: function (error) {
                 console.log("Error: " + error);

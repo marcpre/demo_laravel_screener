@@ -158,33 +158,14 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Edit:</h4>
             </div>
-            <div class="modal-body">
-            
-            {{-- display success message --}} 
-                    
-                    @if (Session::has('success'))
-                    <div class="alert alert-success">
-                        <strong>Success:</strong> {{ Session::get('success') }}
-                    </div>
-                    @endif {{-- display error message --}} 
-                    
-                    @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <strong>Error:</strong>
-                        <ul>
-                            @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif 
-            
+            <div class="modal-body">           
                 <form id="frmProducts" name="frmProducts" class="form-horizontal" novalidate="">
                     {{ csrf_field() }}
                     <div class="form-group error">
                         <label for="inputName" class="col-sm-3 control-label">Name: </label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control has-error" id="name" name="name" placeholder="Insert value" value="">
+                            <p class="errorName text-center alert alert-danger hidden"></p>
                         </div>
                     </div>
                 </form>

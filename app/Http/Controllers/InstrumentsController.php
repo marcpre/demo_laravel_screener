@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Instruments;
 use App\Revision;
-use Debugbar;
+use Validator;
+use Response;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Log;
-use Session;
 
 class InstrumentsController extends Controller
 {
@@ -32,7 +33,7 @@ class InstrumentsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage. 
+     * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -49,9 +50,8 @@ class InstrumentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($instrumentsId)
-    {        
+    {
         Log::info("instru: " . $instrumentsId);
-        
         $instru = Instruments::find($instrumentsId);
         return response()->json($instru);
     }
@@ -76,47 +76,45 @@ class InstrumentsController extends Controller
      */
     public function store(Request $request, $instruments_id)
     {
-        $this->validate($request, [
-            'name' => 'min:3|max:300',
-        ]);
+        $rules = [
+            'name' => 'min:3|max:30',
+        ];
+        $validator = Validator::make(Input::all(), $rules);
+
+        Log::info($validator->getMessageBag()->toArray());
         
-        try {
-            $revision = new Revision();
-            $revision->revision_status = false;
-            $revision->save();
-            
-            Log::info("request: " . $request);
+        if ($validator->fails()) {
+            return Response::json(array('errors' => $validator->getMessageBag()->toArray()));
+        } else {
+            try {
+                $revision = new Revision();
+                $revision->revision_status = false;
+                $revision->save();
 
-            $i = Instruments::find($instruments_id);
-            
-            $instru = new Instruments();
-            $instru->name = $i->name;
-            $instru->symbol  = $i->symbol;
-            $instru->image = $i->image;
-            $instru->revisions_id = $revision->id;
-            
-            if($request->secOrcoo =="country_of_origin" ) {
-                $instru->country_of_origin = $request->name;
-            }
-            
-            if($request->secOrcoo =="sector" ) {
-                $instru->sector = $request->name;
-            }
-            
-            Log::info("instru: " . $instru);
-            Log::info("type: " . $request->type);
-            Log::info("data: " . $request->data);
-            Log::info("name: " . $request->name);
-            Log::info("secOrcoo: " . $request->secOrcoo);
-            
-            $instru->save();
+                $i = Instruments::find($instruments_id);
 
-            Session::flash('success', 'Thank you for your contribution!');
-            
-            return response()->json($instru);
-            //return redirect()->route('index');
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
+                $instru = new Instruments();
+                $instru->name = $i->name;
+                $instru->symbol = $i->symbol;
+                $instru->image = $i->image;
+                $instru->revisions_id = $revision->id;
+
+                // comes from ajax form which field to put into the db
+                if ($request->secOrcoo == "country_of_origin") {
+                    $instru->country_of_origin = $request->name;
+                }
+
+                if ($request->secOrcoo == "sector") {
+                    $instru->sector = $request->name;
+                }
+
+                $instru->save();
+
+                // Session::flash('success', 'Thank you for your contribution!');
+                return response()->json($instru);
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
         }
     }
 
