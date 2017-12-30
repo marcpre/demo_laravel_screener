@@ -9,6 +9,12 @@
                     
                     {{-- Dropdowns Start --}}
                     <ul class="nav nav-pills" role="tablist">
+                        <li role="presentation">
+                            <button id="checkAllButton" class="btn btn-default" type="button">Check all</button>
+                        </li>
+                        <li role="presentation">
+                            <button id="uncheckAllButton" class="btn btn-default" type="button">Uncheck all</button>
+                        </li>
                         <li role="presentation">Order: </li>
                         <li role="presentation" class="dropdown">
                             <a href="#" class="dropdown-toggle" id="drop4" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -89,12 +95,17 @@
                                 </li>
                             </ul>
                         </li>
+                        <li role="presentation">
+                            <button class="btn btn-success btn-default" type="button">Approve checked</button>
+                            <button class="btn btn-danger btn-default" type="button">Disapprove checked</button>
+                        </li>
                     </ul>
                     {{-- Dropdowns Ende --}}
                     <div>Total: {{ count($revArray) }} </div>
                     <table class="table">
                         <thead>
                             <tr>
+                                <th scope="col">Select / Approve</th>
                                 <th scope="col">#</th>
                                 <th scope="col">Image / Name</th>
                                 <th scope="col">Symbol</th>
@@ -108,6 +119,15 @@
                         <tbody>
                             @foreach ($revArray as $key => $rev)
                             <tr id="rev{{$rev->id}}">
+                                @if (count($rev->revision_status) === 1)
+                                <td></td>
+                                @else
+                                <td>
+                                    <input id="revisionBox_{{$rev->id}}" name="approve" type="checkbox" value="">
+                                    <button class="btn btn-success btn-sm" type="submit">Approve</button>
+                                    <button class="btn btn-danger btn-sm" type="submit">Disapprove</button>
+                                </td>
+                                @endif
                                 <td>{{ ++$key }}</td>
                                 <td>
                                     <img style="height: 16px; width: 16px;" src="{{ asset('images')}}/{{ $rev->image }}" /> {{ $rev->name }}

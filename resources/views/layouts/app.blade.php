@@ -85,9 +85,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script> 
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="{{ asset('js/ajax-modal.js') }}"></script> 
-    
-    <!-- Own Scripts -->
 
+    <!-- Own Scripts -->
+    <script src="{{ asset('js/ajax-modal.js') }}"></script> 
+    <script src="{{ asset('js/revision.js') }}"></script> 
+    
 </body>
 </html>
