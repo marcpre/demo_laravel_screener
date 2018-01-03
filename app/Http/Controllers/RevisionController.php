@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Log;
 use DB;
+use Illuminate\Http\Request;
+use App\Instruments;
+use App\Revision;
+use Log;
 
 class RevisionController extends Controller
 {
@@ -17,16 +19,16 @@ class RevisionController extends Controller
     {
 
         /* SQL Query:
-SELECT * 
-FROM instruments AS p 
-INNER JOIN revisions AS r ON p.revisions_id = r.id 
-WHERE p.name IN ( 
-	SELECT p.name FROM instruments AS p 
-	INNER JOIN revisions AS r ON p.revisions_id = r.id 
-	GROUP BY p.name 
-	HAVING COUNT(IFNULL(r.revision_status, 0)) > 1) 
-ORDER BY p.name 
-        */
+        SELECT *
+        FROM instruments AS p
+        INNER JOIN revisions AS r ON p.revisions_id = r.id
+        WHERE p.name IN (
+        SELECT p.name FROM instruments AS p
+        INNER JOIN revisions AS r ON p.revisions_id = r.id
+        GROUP BY p.name
+        HAVING COUNT(IFNULL(r.revision_status, 0)) > 1)
+        ORDER BY p.name
+         */
         $revArray = DB::table('instruments')
             ->join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
             ->whereIn('instruments.name', function ($query) {
@@ -35,15 +37,54 @@ ORDER BY p.name
                     ->join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
                     ->groupBy('instruments.name')
                     ->havingRaw('COUNT(IFNULL(revisions.revision_status, 0)) > 1');
-                })
+            })
             ->orderBy('instruments.name')
             ->get();
 //            ->toArray();
-//        $revArray = (array) $res;
-        
-        Log::info($revArray);
+        //        $revArray = (array) $res;
+
+//        Log::info($revArray);
 
         return view('revision.rindex')->with('revArray', $revArray);
+    }
+
+    public function approve($revisionId)
+    {
+        // Get revision and master
+        /*
+        $revision = DB::table('instruments')
+        ->where('instruments.revisions_id', $revisionId)
+        ->get(); 
+        */
+        
+        $revision = Revision::where('id', $revisionId)->get()->first();
+        $master = Instruments::where('instruments.revisions_id', $revision->id)->get()->first();
+        
+        Log::info("#####################"); 
+        Log::info(json_encode($revision));
+        Log::info(json_encode($master));
+        Log::info("#####################");
+        
+        // Compare revision and master
+        if(!($revision->country_of_origin === $master->country_of_origin)) {
+            $master->country_of_origin = $revision->country_of_origin;
+            $revision->revision_status = false;
+        }
+        
+        if(!($revision->sector === $master->sector)) {
+            $master->sector = $revision->sector;
+            $revision->revision_status = false;
+        }
+        
+        Log::info("##############sdfdsf#######");
+        Log::info(json_encode($revision));
+        Log::info(json_encode($master));
+        Log::info("#####################");
+        
+        $master->save();
+        $revision->save();
+        
+        return redirect()->route('revision.rindex');
     }
 
     /**

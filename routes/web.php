@@ -39,7 +39,9 @@ Route::post('/token/edit/{token_id}', 'InstrumentsController@store');
 // Populate Data in Edit Modal Form
 Route::get('/token/{token_id?}', 'InstrumentsController@show');
 
-Route::get('/revision', 'RevisionController@index');
+Route::get('/revision', 'RevisionController@index')->name('revision.rindex');
+
+Route::post('/revision/{rev}', 'RevisionController@approve')->name('revision.approve');
 
 
 

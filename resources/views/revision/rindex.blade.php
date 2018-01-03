@@ -95,10 +95,12 @@
                                 </li>
                             </ul>
                         </li>
+                        {{-- 
                         <li role="presentation">
                             <button class="btn btn-success btn-default" type="button">Approve checked</button>
                             <button class="btn btn-danger btn-default" type="button">Disapprove checked</button>
                         </li>
+                        --}}
                     </ul>
                     {{-- Dropdowns Ende --}}
                     <div>Total: {{ count($revArray) }} </div>
@@ -120,12 +122,17 @@
                             @foreach ($revArray as $key => $rev)
                             <tr id="rev{{$rev->id}}">
                                 @if (count($rev->revision_status) === 1)
-                                <td></td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" type="submit">Edit</button>
+                                </td>
                                 @else
                                 <td>
-                                    <input id="revisionBox_{{$rev->id}}" name="approve" type="checkbox" value="">
-                                    <button class="btn btn-success btn-sm" type="submit">Approve</button>
-                                    <button class="btn btn-danger btn-sm" type="submit">Disapprove</button>
+                                {{--  <input id="revisionBox_{{$rev->id}}" name="approve" type="checkbox" value=""> --}}
+                                    <form action="{{ route('revision.approve', ['rev'=>$rev->id]) }}" method='POST'>
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name='_method' value='POST'>
+                                        <input id="revisionApprove_{{$rev->id}}" type="submit" class='btn btn-danger' value='Approve'>
+                                    </form>
                                 </td>
                                 @endif
                                 <td>{{ ++$key }}</td>
