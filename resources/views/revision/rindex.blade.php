@@ -121,17 +121,20 @@
                         <tbody>
                             @foreach ($revArray as $key => $rev)
                             <tr id="rev{{$rev->id}}">
-                                @if (count($rev->revision_status) === 1)
+                                @if ($rev->revision_status === 1)
                                 <td>
                                     <button class="btn btn-warning btn-sm" type="submit">Edit</button>
                                 </td>
+                                @elseif ($rev->revision_status === 0)
+                                <td>
+                                </td>                                
                                 @else
                                 <td>
                                 {{--  <input id="revisionBox_{{$rev->id}}" name="approve" type="checkbox" value=""> --}}
                                     <form action="{{ route('revision.approve', ['rev'=>$rev->id]) }}" method='POST'>
                                         {{ csrf_field() }}
                                         <input type="hidden" name='_method' value='POST'>
-                                        <input id="revisionApprove_{{$rev->id}}" type="submit" class='btn btn-danger' value='Approve'>
+                                        <input id="revisionApprove_{{$rev->id}}" type="submit" class='btn btn-danger btn-sm' value='Approve'>
                                     </form>
                                 </td>
                                 @endif

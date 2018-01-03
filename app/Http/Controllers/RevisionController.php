@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Illuminate\Http\Request;
 use App\Instruments;
 use App\Revision;
+use DB;
+use Illuminate\Http\Request;
 use Log;
 
 class RevisionController extends Controller
@@ -42,8 +42,7 @@ class RevisionController extends Controller
             ->get();
 //            ->toArray();
         //        $revArray = (array) $res;
-
-//        Log::info($revArray);
+        //        Log::info($revArray);
 
         return view('revision.rindex')->with('revArray', $revArray);
     }
@@ -51,39 +50,52 @@ class RevisionController extends Controller
     public function approve($revisionId)
     {
         // Get revision and master
-        /*
-        $revision = DB::table('instruments')
-        ->where('instruments.revisions_id', $revisionId)
-        ->get(); 
-        */
-        
-        $revision = Revision::where('id', $revisionId)->get()->first();
-        $master = Instruments::where('instruments.revisions_id', $revision->id)->get()->first();
-        
-        Log::info("#####################"); 
-        Log::info(json_encode($revision));
+        $revisionSlave = Revision::where('id', $revisionId)->get()->first();
+        $slave = Instruments::where('instruments.revisions_id', $revisionSlave->id)->get()->first();
+        $master = Instruments::join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
+            ->where([
+                ['instruments.name', '=', $slave->name],
+                ['revisions.revision_status', '=', 1],
+            ])->get()->first();
+
+        Log::info("#####################");
+        Log::info("revisionSlave:");
+        Log::info(json_encode($revisionSlave));
+        Log::info("slave:");
+        Log::info(json_encode($slave));
+        Log::info("master:");
         Log::info(json_encode($master));
         Log::info("#####################");
-        
-        // Compare revision and master
-        if(!($revision->country_of_origin === $master->country_of_origin)) {
-            $master->country_of_origin = $revision->country_of_origin;
-            $revision->revision_status = false;
+
+        Log::info(json_encode($master->country_of_origin));
+        Log::info(json_encode($slave->country_of_origin));
+        Log::info(!($master->country_of_origin === $master->country_of_origin));
+
+        // Compare slave and master
+        if (!($master->country_of_origin === $slave->country_of_origin)) {
+            $master->country_of_origin = $slave->country_of_origin;
+            $revisionSlave->revision_status = false;
+        }
+
+        if (!($master->sector === $slave->sector)) {
+            $master->sector = $slave->sector;
+            $revisionSlave->revision_status = false;
         }
         
-        if(!($revision->sector === $master->sector)) {
-            $master->sector = $revision->sector;
-            $revision->revision_status = false;
-        }
-        
-        Log::info("##############sdfdsf#######");
-        Log::info(json_encode($revision));
+        Log::info("####### NEW ##############");
+        Log::info("revisionSlave:");
+        Log::info(json_encode($revisionSlave));
+        Log::info("slave:");
+        Log::info(json_encode($slave));
+        Log::info("master:");
         Log::info(json_encode($master));
         Log::info("#####################");
-        
+
+        //save to db
         $master->save();
-        $revision->save();
-        
+        $slave->save();
+        $revisionSlave->save();
+
         return redirect()->route('revision.rindex');
     }
 
