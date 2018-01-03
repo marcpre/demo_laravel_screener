@@ -130,11 +130,15 @@
                                 </td>                                
                                 @else
                                 <td>
-                                {{--  <input id="revisionBox_{{$rev->id}}" name="approve" type="checkbox" value=""> --}}
-                                    <form action="{{ route('revision.approve', ['rev'=>$rev->id]) }}" method='POST'>
+                                    <form id="revisionApprove_{{$rev->id}}" action="{{ route('revision.approve', ['rev'=>$rev->id]) }}" method='POST'>
                                         {{ csrf_field() }}
                                         <input type="hidden" name='_method' value='POST'>
-                                        <input id="revisionApprove_{{$rev->id}}" type="submit" class='btn btn-danger btn-sm' value='Approve'>
+                                        <input id="revisionApprove_{{$rev->id}}" type="submit" class='btn btn-success    btn-sm' value='Approve'>
+                                    </form>
+                                    <form id="revisionDisapprove_{{$rev->id}}" action="{{ route('revision.disapprove', ['rev'=>$rev->id]) }}" method='POST'>
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name='_method' value='POST'>
+                                        <input id="revisionDisapprove_{{$rev->id}}" type="submit" class='btn btn-danger btn-sm' value='Disapprove'>
                                     </form>
                                 </td>
                                 @endif

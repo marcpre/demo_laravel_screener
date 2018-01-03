@@ -58,19 +58,6 @@ class RevisionController extends Controller
                 ['revisions.revision_status', '=', 1],
             ])->get()->first();
 
-        Log::info("#####################");
-        Log::info("revisionSlave:");
-        Log::info(json_encode($revisionSlave));
-        Log::info("slave:");
-        Log::info(json_encode($slave));
-        Log::info("master:");
-        Log::info(json_encode($master));
-        Log::info("#####################");
-
-        Log::info(json_encode($master->country_of_origin));
-        Log::info(json_encode($slave->country_of_origin));
-        Log::info(!($master->country_of_origin === $master->country_of_origin));
-
         // Compare slave and master
         if (!($master->country_of_origin === $slave->country_of_origin)) {
             $master->country_of_origin = $slave->country_of_origin;
@@ -82,15 +69,6 @@ class RevisionController extends Controller
             $revisionSlave->revision_status = false;
         }
         
-        Log::info("####### NEW ##############");
-        Log::info("revisionSlave:");
-        Log::info(json_encode($revisionSlave));
-        Log::info("slave:");
-        Log::info(json_encode($slave));
-        Log::info("master:");
-        Log::info(json_encode($master));
-        Log::info("#####################");
-
         //save to db
         $master->save();
         $slave->save();
@@ -99,6 +77,14 @@ class RevisionController extends Controller
         return redirect()->route('revision.rindex');
     }
 
+    public function disapprove($revisionId)
+    {
+        $revisionSlave = Revision::where('id', $revisionId)->get()->first();
+        $revisionSlave->revision_status = false;
+        $revisionSlave->save();
+        return redirect()->route('revision.rindex');
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

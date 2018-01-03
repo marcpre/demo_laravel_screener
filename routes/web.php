@@ -41,7 +41,8 @@ Route::get('/token/{token_id?}', 'InstrumentsController@show');
 
 Route::get('/revision', 'RevisionController@index')->name('revision.rindex');
 
-Route::post('/revision/{rev}', 'RevisionController@approve')->name('revision.approve');
+Route::post('/revision/approve/{rev}', 'RevisionController@approve')->name('revision.approve');
 
+Route::post('/revision/disapprove/{rev}', 'RevisionController@disapprove')->name('revision.disapprove');
 
 
