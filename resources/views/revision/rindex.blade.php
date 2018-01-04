@@ -101,6 +101,26 @@
                             <button class="btn btn-danger btn-default" type="button">Disapprove checked</button>
                         </li>
                         --}}
+                        <li role="presentation">Filters: </li>
+                        <li role="presentation">
+                            <form id="revisionFilter" action="{{ route('revision.filter') }}" method='POST'>
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox1">
+                                <label class="form-check-label" for="checkbox1">
+                                    1
+                                </label>
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox0">
+                                <label class="form-check-label" for="checkbox0">
+                                    0
+                                </label>
+                                <label class="form-check-label" for="checkboxNull">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                <label class="form-check-label" for="checkboxNull">
+                                    Null
+                                </label>
+                                <input type="hidden" name='_method' value='POST'>
+                                <input id="revisionFilterSubmit" type="submit" class='btn btn-danger btn-sm' value='Filter'>
+                            </form>
+                        </li>
                     </ul>
                     {{-- Dropdowns Ende --}}
                     <div>Total: {{ count($revArray) }} </div>

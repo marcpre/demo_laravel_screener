@@ -45,4 +45,5 @@ Route::post('/revision/approve/{rev}', 'RevisionController@approve')->name('revi
 
 Route::post('/revision/disapprove/{rev}', 'RevisionController@disapprove')->name('revision.disapprove');
 
+Route::post('/revision/filter', 'RevisionController@filter')->name('revision.filter');
 

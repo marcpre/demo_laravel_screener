@@ -85,6 +85,11 @@ class RevisionController extends Controller
         return redirect()->route('revision.rindex');
     }
     
+    public function filter()
+    {
+        //
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

@@ -6,7 +6,7 @@
                 <div class="panel-heading">Screener</div>
 
                 <div class="panel-body">
-                    
+
                     {{-- Dropdowns Start --}}
                     <ul class="nav nav-pills" role="tablist">
                         <li role="presentation">Order: </li>
@@ -120,7 +120,7 @@
                                         <sup> EDIT</sup>
                                     </a>
                                 </td>
-                                <td>{{ $cryptos->country_of_origin }} 
+                                <td>{{ $cryptos->country_of_origin }}
                                     <a id="coo{{ $cryptos->id }}" name="country_of_origin" value="{{ $cryptos->id }}" class="open_modal" data-target="#myModal">
                                         <sup> EDIT</sup>
                                     </a>
@@ -158,7 +158,7 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Edit:</h4>
             </div>
-            <div class="modal-body">           
+            <div class="modal-body">
                 <form id="frmProducts" name="frmProducts" class="form-horizontal" novalidate="">
                     {{ csrf_field() }}
                     <div class="form-group error">
