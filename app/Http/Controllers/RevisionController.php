@@ -85,9 +85,47 @@ class RevisionController extends Controller
         return redirect()->route('revision.rindex');
     }
     
-    public function filter()
+    public function filter(Request $request)
     {
-        //
+        
+                /* SQL Query:
+		SELECT *
+        FROM instruments AS p
+        INNER JOIN revisions AS r ON p.revisions_id = r.id
+        WHERE p.name IN (
+        SELECT p.name FROM instruments AS p
+        INNER JOIN revisions AS r ON p.revisions_id = r.id
+        GROUP BY p.name
+        HAVING COUNT(IFNULL(r.revision_status, 0)) > 1)
+        AND r.revision_status = 1 OR r.revision_status = 0 OR r.revision_status IS NULL
+        ORDER BY p.name
+         */
+        Log::info("Request: ");
+        Log::info($request);
+        Log::info($request->checkbox1);
+        
+        $checkbox1 = $request->checkbox1;
+        $checkbox0 = $request->checkbox0;
+        $checkboxNull = $request->checkboxNull;
+        
+        $revArray = DB::table('instruments')
+        ->join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
+        ->whereIn('instruments.name', function ($query) {
+            $query->select('instruments.name')
+                ->from('instruments')
+                ->join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
+                ->groupBy('instruments.name')
+                ->havingRaw('COUNT(IFNULL(revisions.revision_status, 0)) > 1');
+        })
+        ->orderBy('instruments.name')
+        ->get();
+//            ->toArray();
+    //        $revArray = (array) $res;
+    //        Log::info($revArray);
+
+    return view('revision.rindex')->with('revArray', $revArray);
+        
+        return redirect()->route('revision.rindex');
     }
     
     /**

@@ -104,16 +104,17 @@
                         <li role="presentation">Filters: </li>
                         <li role="presentation">
                             <form id="revisionFilter" action="{{ route('revision.filter') }}" method='POST'>
-                                <input class="form-check-input" type="checkbox" value="" id="checkbox1">
+                                {{ csrf_field() }}
+                                <input class="form-check-input" type="checkbox" value="checked" id="checkbox1" name="checkbox1">
                                 <label class="form-check-label" for="checkbox1">
                                     1
                                 </label>
-                                <input class="form-check-input" type="checkbox" value="" id="checkbox0">
+                                <input class="form-check-input" type="checkbox" value="checked" id="checkbox0" name="checkbox0">
                                 <label class="form-check-label" for="checkbox0">
                                     0
                                 </label>
                                 <label class="form-check-label" for="checkboxNull">
-                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                <input class="form-check-input" type="checkbox" value="checked" id="defaultCheck1" name="checkboxNull">
                                 <label class="form-check-label" for="checkboxNull">
                                     Null
                                 </label>
