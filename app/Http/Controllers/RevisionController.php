@@ -68,7 +68,7 @@ class RevisionController extends Controller
             $master->sector = $slave->sector;
             $revisionSlave->revision_status = false;
         }
-        
+
         //save to db
         $master->save();
         $slave->save();
@@ -84,12 +84,11 @@ class RevisionController extends Controller
         $revisionSlave->save();
         return redirect()->route('revision.rindex');
     }
-    
+
     public function filter(Request $request)
     {
-        
-                /* SQL Query:
-		SELECT *
+        /* SQL Query:
+        SELECT *
         FROM instruments AS p
         INNER JOIN revisions AS r ON p.revisions_id = r.id
         WHERE p.name IN (
@@ -103,31 +102,38 @@ class RevisionController extends Controller
         Log::info("Request: ");
         Log::info($request);
         Log::info($request->checkbox1);
-        
+        Log::info($request->checkbox0);
+        Log::info($request->checkboxNull);
+
         $checkbox1 = $request->checkbox1;
         $checkbox0 = $request->checkbox0;
         $checkboxNull = $request->checkboxNull;
-        
-        $revArray = DB::table('instruments')
-        ->join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
-        ->whereIn('instruments.name', function ($query) {
-            $query->select('instruments.name')
-                ->from('instruments')
-                ->join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
-                ->groupBy('instruments.name')
-                ->havingRaw('COUNT(IFNULL(revisions.revision_status, 0)) > 1');
-        })
-        ->orderBy('instruments.name')
-        ->get();
-//            ->toArray();
-    //        $revArray = (array) $res;
-    //        Log::info($revArray);
 
-    return view('revision.rindex')->with('revArray', $revArray);
-        
-        return redirect()->route('revision.rindex');
+        $data = DB::table('instruments')
+            ->join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
+            ->whereIn('instruments.name', function ($query) {
+                $query->select('instruments.name')
+                    ->from('instruments')
+                    ->join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
+                    ->groupBy('instruments.name')
+                    ->havingRaw('COUNT(IFNULL(revisions.revision_status, 0)) > 1');
+            })
+            ->where("revisions.revision_status", "=", $checkbox1);
+        //->orWhere("revisions.revision_status", "=", $checkbox0);
+
+        if ($checkbox0 === "0") {
+            $data->orWhere("revisions.revision_status", "=", $checkbox0);
+        }
+
+        if ($checkboxNull === "NULL-VALUE") {
+            $data->orWhereNull("revisions.revision_status");
+        }
+
+        $revArray = $data->orderBy('instruments.name')->get();
+
+        return view('revision.rindex')->with('revArray', $revArray);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
