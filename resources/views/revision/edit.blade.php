@@ -23,20 +23,20 @@
                     @endif
 
                     <div class="row">
-                        <form action="{{ route('revision.update', [$revisionUnderEdit->id]) }}" method='POST'>
+                        <form action="{{ route('revision.update', [$instrumentUnderEdit->id]) }}" method='POST'>
                             {{ csrf_field() }}
                             <input type="hidden" name='_method' value='PUT'>
 
                             <div class="form-group">
-                                <input type="text" name='name' class='form-control input-lg' value='{{ $revisionUnderEdit->name }}'>
+                                <input type="text" name='name' class='form-control input-lg' value='{{ $instrumentUnderEdit->name }}'>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" name='sector' class='form-control input-lg' value='{{ $revisionUnderEdit->sector }}'>
+                                <input type="text" name='sector' class='form-control input-lg' value='{{ $instrumentUnderEdit->sector }}'>
                             </div>
 
                             <div class="form-group">
-                                <input type="text" name='country_of_origin' class='form-control input-lg' value='{{ $revisionUnderEdit->country_of_origin }}'>
+                                <input type="text" name='country_of_origin' class='form-control input-lg' value='{{ $instrumentUnderEdit->country_of_origin }}'>
                             </div>
 
                             <div class="form-group">

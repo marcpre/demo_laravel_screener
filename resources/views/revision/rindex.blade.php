@@ -144,7 +144,7 @@
                             <tr id="rev{{$rev->id}}">
                                 @if ($rev->revision_status === 1)
                                 <td>
-                                    <a href="{{ route('revision.edit', ['revision'=>$rev->id]) }}" class='btn btn-warning btn-sm'>Edit</a>
+                                    <a href="{{ route('revision.edit', ['instruments_id'=>$rev->id]) }}" class='btn btn-warning btn-sm'>Edit</a>
                                 </td>
                                 @elseif ($rev->revision_status === 0)
                                 <td>

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Instruments;
 use App\Revision;
-use Validator;
-use Response;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Log;
+use Response;
+use Validator;
 
 class InstrumentsController extends Controller
 {
@@ -33,17 +33,6 @@ class InstrumentsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Instruments  $instruments
@@ -54,17 +43,6 @@ class InstrumentsController extends Controller
         Log::info("instru: " . $instrumentsId);
         $instru = Instruments::find($instrumentsId);
         return response()->json($instru);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Instruments  $instruments
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Instruments $instruments)
-    {
-        //
     }
 
     /**
@@ -82,7 +60,7 @@ class InstrumentsController extends Controller
         $validator = Validator::make(Input::all(), $rules);
 
         Log::info($validator->getMessageBag()->toArray());
-        
+
         if ($validator->fails()) {
             return Response::json(array('errors' => $validator->getMessageBag()->toArray()));
         } else {
@@ -128,4 +106,29 @@ class InstrumentsController extends Controller
     {
         //
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Instruments  $instruments
+     * @return \Illuminate\Http\Response
+     */
+    public function editInRevision($id)
+    {
+        $instruments = Instruments::find($id);
+
+        return view('revision.edit')->with('instrumentUnderEdit', $instruments);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateInRevision(Request $request)
+    {
+        //
+    }
+
 }

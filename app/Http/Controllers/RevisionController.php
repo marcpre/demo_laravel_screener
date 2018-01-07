@@ -49,7 +49,7 @@ class RevisionController extends Controller
             ->get();
 //            ->toArray();
         //        $revArray = (array) $res;
-        //        Log::info($revArray);
+        Log::info($revArray);
 
         return view('revision.rindex')->with('revArray', $revArray);
     }
@@ -181,8 +181,7 @@ class RevisionController extends Controller
      */
     public function edit(Revision $revision)
     {
-        Log::info("Request: ");
-        return view('revision.edit')->with('revisionUnderEdit', $revision);
+
     }
 
     /**
