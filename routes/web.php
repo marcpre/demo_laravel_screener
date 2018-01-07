@@ -32,6 +32,8 @@ Route::post('/revision/disapprove/{rev}', 'RevisionController@disapprove')->name
 Route::post('/revision/filter', 'RevisionController@filter')->name('revision.filter');
 
 //edit revision
-Route::get('/revision/{instruments_id}/edit', 'InstrumentsController@editInRevision')->name('revision.edit');
+Route::get('/revision/{instruments_id}/edit', 'InstrumentsController@editAdmin')->name('revision.edit');
 
-Route::post('/revision/{instruments_id}', 'InstrumentsController@update')->name('revision.update');
+Route::post('/revision/{instruments_id}', 'InstrumentsController@updateAdmin')->name('revision.update');
+
+Route::post('/revision/command/updateOverview', 'InstrumentsController@updateOverview')->name('revision.updateOverview');

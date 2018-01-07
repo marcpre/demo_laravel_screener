@@ -6,7 +6,22 @@
                 <div class="panel-heading">Screener</div>
 
                 <div class="panel-body">
-                    
+
+                {{-- display success message --}} @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        <strong>Success:</strong> {{ Session::get('success') }}
+                    </div>
+                    @endif {{-- display error message --}} @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong>
+                        <ul>
+                            @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
                     {{-- Dropdowns Start --}}
                     <ul class="nav nav-pills" role="tablist">
                         <li role="presentation">
@@ -95,7 +110,7 @@
                                 </li>
                             </ul>
                         </li>
-                        {{-- 
+                        {{--
                         <li role="presentation">
                             <button class="btn btn-success btn-default" type="button">Approve checked</button>
                             <button class="btn btn-danger btn-default" type="button">Disapprove checked</button>
@@ -120,6 +135,13 @@
                                 </label>
                                 <input type="hidden" name='_method' value='POST'>
                                 <input id="revisionFilterSubmit" type="submit" class='btn btn-danger btn-sm' value='Filter'>
+                            </form>
+                        </li>
+                        <li role="presentation">
+                            <form id="revisionOverview" action="{{ route('revision.updateOverview') }}" method='POST'>
+                                {{ csrf_field() }}
+                                <input type="hidden" name='_method' value='POST'>
+                                <input id="revisionOverviewSubmit" type="submit" class='btn btn-success btn-sm' value='Update Overview'>
                             </form>
                         </li>
                     </ul>

@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Log;
 use Response;
+use Session;
 use Validator;
+use Artisan;
 
 class InstrumentsController extends Controller
 {
@@ -113,7 +115,7 @@ class InstrumentsController extends Controller
      * @param  \App\Instruments  $instruments
      * @return \Illuminate\Http\Response
      */
-    public function editInRevision($id)
+    public function editAdmin($id)
     {
         $instruments = Instruments::find($id);
 
@@ -126,9 +128,39 @@ class InstrumentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateInRevision(Request $request)
+    public function updateAdmin(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'nullable|min:2|max:190',
+            'sector' => 'nullable|min:3|max:190',
+            'country_of_origin' => 'nullable|min:3|max:190',
+        ]);
+        Log::info($request->name);
+        Log::info($request->sector);
+        Log::info($request->country_of_origin);
+        Log::info($id);
+
+        $instrument = Instruments::find($id);
+
+        $instrument->name = $request->name;
+        $instrument->sector = $request->sector;
+        $instrument->country_of_origin = $request->country_of_origin;
+
+        $instrument->save();
+        Session::flash('success', 'COIN: ' . $instrument->name . ' has been successfully updated.');
+        return redirect()->route('revision.rindex');
+    }
+
+    public function updateOverview(Request $request)
+    {
+        try {
+            Log::info('Update Overview');
+            $exitCode = Artisan::call('Overview:download');
+            Session::flash('success', 'Overview Updated: ' . $exitCode);
+        } catch (\Exception $e) {
+            Session::flash('error', 'Error: ' . $e);
+        }
+        return redirect()->route('revision.rindex');
     }
 
 }
