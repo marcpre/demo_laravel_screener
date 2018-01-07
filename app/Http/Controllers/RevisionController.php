@@ -179,9 +179,10 @@ class RevisionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Revision $revision)
     {
-        //
+        Log::info("Request: ");
+        return view('revision.edit')->with('revisionUnderEdit', $revision);
     }
 
     /**

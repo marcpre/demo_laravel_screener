@@ -144,11 +144,11 @@
                             <tr id="rev{{$rev->id}}">
                                 @if ($rev->revision_status === 1)
                                 <td>
-                                    <button class="btn btn-warning btn-sm" type="submit">Edit</button>
+                                    <a href="{{ route('revision.edit', ['revision'=>$rev->id]) }}" class='btn btn-warning btn-sm'>Edit</a>
                                 </td>
                                 @elseif ($rev->revision_status === 0)
                                 <td>
-                                </td>                                
+                                </td>
                                 @else
                                 <td>
                                     <form id="revisionApprove_{{$rev->id}}" action="{{ route('revision.approve', ['rev'=>$rev->id]) }}" method='POST'>

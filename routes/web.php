@@ -31,3 +31,7 @@ Route::post('/revision/disapprove/{rev}', 'RevisionController@disapprove')->name
 
 Route::post('/revision/filter', 'RevisionController@filter')->name('revision.filter');
 
+//edit revision
+Route::get('/revision/{revision}/edit', 'RevisionController@edit')->name('revision.edit');
+
+Route::post('/revision/{revision}', 'RevisionController@update')->name('revision.update');
