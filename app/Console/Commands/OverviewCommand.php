@@ -78,6 +78,8 @@ ORDER BY instruments.id ASC');
                     'symbol' => $overviewArray[$key]->symbol,
                     'image' => $overviewArray[$key]->image,
                     'market_cap' => $overviewArray[$key]->market_cap,
+                    'country_of_origin' => $overviewArray[$key]->country_of_origin,
+                    'sector' => $overviewArray[$key]->sector,
                     'volume_24h' => $overviewArray[$key]->volume_24h,
                     'circulatingSupply' => $overviewArray[$key]->circulatingSupply,
                 ]);
