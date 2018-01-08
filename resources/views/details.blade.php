@@ -3,41 +3,31 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Screener</div>
+                <div class="panel-heading">
+                    <img style="height: 32px; width: 32px;" src="{{ asset('images')}}/{{ $instrumentUnderEdit->image }}" /> 
+                    {{ $instrumentUnderEdit->name }}
+                </div>
                 <div class="panel-body"></div>
                 <div class="container-fluid">
                     <div class="col-md-2">
                         <div class="table-responsive">
+                            </br>
                             <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            #
-                                        </th>
-                                        <th>
-                                            Product
-                                        </th>
-                                        <th>
-                                            Payment Taken
-                                        </th>
-                                        <th>
-                                            Status
-                                        </th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr>
                                         <td>
-                                            1
+                                            Country of Origin
                                         </td>
                                         <td>
-                                            TB - Monthly
+                                            Whatever
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Sector
                                         </td>
                                         <td>
-                                            01/04/2012
-                                        </td>
-                                        <td>
-                                            Default
+                                            Whatever
                                         </td>
                                     </tr>
                                 </tbody>
@@ -48,29 +38,25 @@
                         <div class="tabbable" id="tabs-305570">
                             <ul class="nav nav-tabs">
                                 <li class="active">
-                                    <a href="#panel-495769" data-toggle="tab">Section 1
-                      </a>
-                                </li>
-                                <li>
-                                    <a href="#panel-207616" data-toggle="tab">Section 2
+                                    <a href="#panel-495769" data-toggle="tab">Details
                       </a>
                                 </li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="panel-495769">
                                     <p>
-                                        I'm in Section 1.
+                                        Team
                                     </p>
-                                </div>
-                                <div class="tab-pane" id="panel-207616">
                                     <p>
-                                        Howdy, I'm in Section 2.
+                                        Events
+                                    </p>
+                                    <p>
+                                        Github Repository
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                
             </div>
         </div>
     </div>
