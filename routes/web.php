@@ -18,7 +18,8 @@ Route::get('/',[
 ]);
 
 Route::get('/details/{instrument_id}', 'InstrumentsController@details')->name('instrument.details');
-Route::post('/details/{instrument_id}/edit', 'InstrumentsController@updateDetails')->name('instrument.updateDetails');
+Route::get('/details/{instrument_id}/edit', 'InstrumentsController@editDetails')->name('instrument.editDetails');
+Route::post('/details/{instrument_id}/update', 'InstrumentsController@updateDetails')->name('instrument.updateDetails');
 
 // Auth
 Auth::routes();

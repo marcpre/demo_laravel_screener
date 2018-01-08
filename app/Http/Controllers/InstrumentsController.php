@@ -171,6 +171,14 @@ class InstrumentsController extends Controller
         return view('details')->with('instrumentUnderEdit', $instrument);
     }
 
+    public function editDetails($id)
+    {
+        $instrument = Instruments::find($id);
+        Log::info($instrument);
+
+        return view('edit')->with('instrumentUnderEdit', $instrument);
+    }
+
     public function updateDetails()
     {
         //
