@@ -11,11 +11,16 @@
 |
 */
 
+// Main Homepage
 Route::get('/',[
     'as' => 'index',
     'uses' => 'OverviewController@index'
 ]);
 
+Route::get('/details/{instrument_id}', 'InstrumentsController@details')->name('instrument.details');
+Route::post('/details/{instrument_id}/edit', 'InstrumentsController@updateDetails')->name('instrument.updateDetails');
+
+// Auth
 Auth::routes();
 
 Route::post('/token/edit/{token_id}', 'InstrumentsController@store');

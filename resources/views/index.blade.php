@@ -112,7 +112,8 @@
                             <tr id="cryptos{{$cryptos->id}}">
                                 <td>{{ ++$key }}</td>
                                 <td>
-                                    <img style="height: 16px; width: 16px;" src="{{ asset('images')}}/{{ $cryptos->image }}" /> {{ $cryptos->name }}
+                                    <img style="height: 16px; width: 16px;" src="{{ asset('images')}}/{{ $cryptos->image }}" /> 
+                                    <a href="{{ route('instrument.details', ['instrument_id'=>$cryptos->id]) }}" >{{ $cryptos->name }}</a>
                                 </td>
                                 <td>{{ $cryptos->symbol }}</td>
                                 <td>{{ $cryptos->sector }}

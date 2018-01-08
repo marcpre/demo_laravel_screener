@@ -162,5 +162,17 @@ class InstrumentsController extends Controller
         }
         return redirect()->route('revision.rindex');
     }
+    
+    public function details($id)
+    {
+        $instrument = Instruments::find($id);
+        Log::info($instrument);
 
+        return view('details')->with('instrumentUnderEdit', $instrument);
+    }
+
+    public function updateDetails()
+    {
+        //
+    }
 }
