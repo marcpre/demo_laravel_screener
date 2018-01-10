@@ -36,4 +36,17 @@ select {
 .nav-pills {
     display: flex;
     align-items: center;
-  }
+}
+
+/* Repeater Field CSS */
+
+label,
+input,
+textarea {
+    display: inline-block;
+    width: 150px;
+}
+
+label {
+    border: solid 2px rgba(0, 0, 0, 0);
+}
