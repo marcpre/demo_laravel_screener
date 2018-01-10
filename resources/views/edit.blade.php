@@ -22,7 +22,14 @@
                                             Country of Origin
                                         </td>
                                         <td>
-                                            Whatever
+                                                                 <form action="" method='POST'>
+      {{ csrf_field() }}
+      <input type="hidden" name='_method' value='PUT'>
+
+        <div class="form-group">
+          <input type="text" name='updatedTaskName' class='form-control input-sm' value=''>
+        </div>
+</form>
                                         </td>
                                     </tr>
                                     <tr>
@@ -30,7 +37,14 @@
                                             Sector
                                         </td>
                                         <td>
-                                            Whatever
+                                            <form action="" method='POST'>
+      {{ csrf_field() }}
+      <input type="hidden" name='_method' value='PUT'>
+
+        <div class="form-group">
+          <input type="text" name='updatedTaskName' class='form-control input-sm' value=''>
+        </div>
+</form>
                                         </td>
                                     </tr>
                                 </tbody>
