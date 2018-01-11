@@ -9,7 +9,27 @@
                         <sup> EDIT</sup>
                     </a>
                 </div>
-                <div class="panel-body"></div>
+                <div class="panel-body">
+                {{-- display success message --}}
+    @if (Session::has('success'))
+      <div class="alert alert-success">
+        <strong>Success:</strong> {{ Session::get('success') }}
+      </div>
+    @endif
+
+    {{-- display error message --}}
+    @if (count($errors) > 0)
+      <div class="alert alert-danger">
+        <strong>Error:</strong>
+        <ul>
+          @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+     
+                </div>
                 <div class="container-fluid">
                     <div class="col-md-2">
                         <div class="table-responsive">
@@ -65,20 +85,18 @@
                                         Team
                                     </h3>
                                     <!-- Form -->
-                                    <form action="echo.php" class="repeater" enctype="multipart/form-data">
-                                        <label>Name</label>
-                                        <label>Twitter</label>
-                                        <label>Twitter</label>
+                                    <form action="{{ route('instrument.updateDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
+                                        <label>Firstname</label>
+                                        <label>Lastname</label>
                                         <label>Twitter</label>
                                         <div data-repeater-list="group-a">
                                             <div data-repeater-item>
-                                                <input name="untyped-input" value="A" />
 
-                                                <input type="text" name="text-input" value="Name" />
+                                                <input type="text" name="text-input" value='{{ $instrumentUnderEdit->firstName }}' />
 
-                                                <input type="text" name="text-input" value="Twitter" />
-
-                                                <input type="text" name="text-input" value="Twitter" />
+                                                <input type="text" name="text-input" value='{{ $instrumentUnderEdit->lastName }}' />
+                                                
+                                                <input type="text" name="text-input" value='{{ $instrumentUnderEdit->twitter }}' />
 
                                                 <input data-repeater-delete type="button" value="Delete" />
                                             </div>
@@ -90,19 +108,22 @@
                                         Upcoming Events
                                     </h3>
                                     <!-- Form -->
-                                    <form action="echo.php" class="repeater" enctype="multipart/form-data">
+                                    <form action="{{ route('instrument.updateDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
                                         <label>Event Name</label>
                                         <label>Link</label>
+                                        <label>Date</label>
                                         <div data-repeater-list="group-a">
                                             <div data-repeater-item>
                                                 <input name="untyped-input" value="A" />
 
                                                 <input type="text" name="text-input" value="A" />
 
-                                                <input type="date" name="date-input" />
+                                                <input type="date" name="date-input" value='{{ $instrumentUnderEdit->date}}' />
 
+<!--
                                                 <textarea name="textarea-input">A</textarea>
 
+                                                
                                                 <input type="radio" name="radio-input" value="A" checked/>
                                                 <input type="radio" name="radio-input" value="B" />
 
@@ -118,7 +139,7 @@
                                                     <option value="A" selected>A</option>
                                                     <option value="B" selected>B</option>
                                                 </select>
-
+-->
                                                 <input data-repeater-delete type="button" value="Delete" />
                                             </div>
                                         </div>
@@ -133,11 +154,8 @@
                                         <label>Link</label>
                                         <div data-repeater-list="group-a">
                                             <div data-repeater-item>
-                                                <input name="untyped-input" value="A" />
 
                                                 <input type="text" name="text-input" value="A" />
-
-                                                <input type="date" name="date-input" />
 
                                                 <input data-repeater-delete type="button" value="Delete" />
                                             </div>

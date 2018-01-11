@@ -16,7 +16,7 @@ class CreateSocialsTable extends Migration
         Schema::create('socials', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('instruments_id')->nullable($value = true);
-            $table->string('name')->nullable($value = true);
+            $table->string('link')->nullable($value = true);
             $table->timestamps();
         });
     }
