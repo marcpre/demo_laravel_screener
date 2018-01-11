@@ -22,14 +22,14 @@
                                             Country of Origin
                                         </td>
                                         <td>
-                                                                 <form action="" method='POST'>
-      {{ csrf_field() }}
-      <input type="hidden" name='_method' value='PUT'>
+                                            <form action="" method='POST'>
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name='_method' value='PUT'>
 
-        <div class="form-group">
-          <input type="text" name='updatedTaskName' class='form-control input-sm' value=''>
-        </div>
-</form>
+                                                <div class="form-group">
+                                                    <input type="text" name='updatedTaskName' class='form-control input-sm' value=''>
+                                                </div>
+                                            </form>
                                         </td>
                                     </tr>
                                     <tr>
@@ -38,13 +38,13 @@
                                         </td>
                                         <td>
                                             <form action="" method='POST'>
-      {{ csrf_field() }}
-      <input type="hidden" name='_method' value='PUT'>
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name='_method' value='PUT'>
 
-        <div class="form-group">
-          <input type="text" name='updatedTaskName' class='form-control input-sm' value=''>
-        </div>
-</form>
+                                                <div class="form-group">
+                                                    <input type="text" name='updatedTaskName' class='form-control input-sm' value=''>
+                                                </div>
+                                            </form>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -66,10 +66,10 @@
                                     </h3>
                                     <!-- Form -->
                                     <form action="echo.php" class="repeater" enctype="multipart/form-data">
-                                          <label>Name</label>
-                                          <label>Twitter</label>
-                                          <label>Twitter</label>
-                                          <label>Twitter</label>
+                                        <label>Name</label>
+                                        <label>Twitter</label>
+                                        <label>Twitter</label>
+                                        <label>Twitter</label>
                                         <div data-repeater-list="group-a">
                                             <div data-repeater-item>
                                                 <input name="untyped-input" value="A" />
@@ -91,8 +91,8 @@
                                     </h3>
                                     <!-- Form -->
                                     <form action="echo.php" class="repeater" enctype="multipart/form-data">
-                                          <label>Event Name</label>
-                                          <label>Link</label>
+                                        <label>Event Name</label>
+                                        <label>Link</label>
                                         <div data-repeater-list="group-a">
                                             <div data-repeater-item>
                                                 <input name="untyped-input" value="A" />
@@ -130,7 +130,7 @@
                                     </h3>
                                     <!-- Form -->
                                     <form action="echo.php" class="repeater" enctype="multipart/form-data">
-                                          <label>Link</label>
+                                        <label>Link</label>
                                         <div data-repeater-list="group-a">
                                             <div data-repeater-item>
                                                 <input name="untyped-input" value="A" />
