@@ -175,7 +175,7 @@ class InstrumentsController extends Controller
     {
         $instrument = Instruments::find($id);
 
-        return view('edit')->with('instrumentUnderEdit', $instrument);
+        return view('detailsEdit')->with('instrumentUnderEdit', $instrument);
     }
 
 }

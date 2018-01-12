@@ -6,12 +6,15 @@
                 <div class="panel-heading">
                     <img style="height: 32px; width: 32px;" src="{{ asset('images')}}/{{ $instrumentUnderEdit->image }}" /> {{ $instrumentUnderEdit->name }}
                 </div>
-                <div class="panel-body">
-                    {{-- display success message --}} @if (Session::has('success'))
+                <div class="panel-body">              
+                    {{-- display success message --}} 
+                    @if (Session::has('success'))
                     <div class="alert alert-success">
                         <strong>Success:</strong> {{ Session::get('success') }}
                     </div>
-                    @endif {{-- display error message --}} @if (count($errors) > 0)
+                    @endif 
+                    {{-- display error message --}} 
+                    @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <strong>Error:</strong>
                         <ul>
@@ -21,7 +24,6 @@
                         </ul>
                     </div>
                     @endif
-
                 </div>
                 <div class="container-fluid">
                     <div class="col-md-2">
@@ -78,18 +80,18 @@
                                         Team
                                     </h3>
                                     <!-- Form -->
-                                    <form action="{{ route('instrument.updateDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
+                                    <form action="{{ route('revision.updateDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
                                         <label>Firstname</label>
                                         <label>Lastname</label>
                                         <label>Twitter</label>
                                         <div data-repeater-list="group-a">
                                             <div data-repeater-item>
 
-                                                <input type="text" name="text-input" value='{{ $instrumentUnderEdit->firstName }}' />
+                                                <input type="text" name="firstName" value='{{ $instrumentUnderEdit->firstName }}' />
 
-                                                <input type="text" name="text-input" value='{{ $instrumentUnderEdit->lastName }}' />
+                                                <input type="text" name="lastName" value='{{ $instrumentUnderEdit->lastName }}' />
 
-                                                <input type="text" name="text-input" value='{{ $instrumentUnderEdit->twitter }}' />
+                                                <input type="text" name="twitter" value='{{ $instrumentUnderEdit->twitter }}' />
 
                                                 <input data-repeater-delete type="button" value="Delete" />
                                             </div>
@@ -98,14 +100,14 @@
                                         </br>
                                         </br>
                                         <input type="hidden" name='_method' value='POST'>
-                                        <input id="revisionOverviewSubmit" type="submit" class='btn btn-success btn-sm' value='Update'>
+                                        <input type="submit" class='btn btn-success btn-sm' value='Update'>
                                     </form>
                                     <!-- Form -->
                                     <h3>
                                         Upcoming Events
                                     </h3>
                                     <!-- Form -->
-                                    <form action="{{ route('instrument.updateDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
+                                    <form action="" method='POST' class="repeater" enctype="multipart/form-data">
                                         <label>Event Name</label>
                                         <label>Link</label>
                                         <label>Date</label>
@@ -147,7 +149,7 @@
                                         Code Repository
                                     </h3>
                                     <!-- Form -->
-                                    <form action="{{ route('instrument.updateDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
+                                    <form action="" method='POST' class="repeater" enctype="multipart/form-data">
                                         <label>Link</label>
                                         <div data-repeater-list="group-a">
                                             <div data-repeater-item>

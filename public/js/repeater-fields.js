@@ -5,9 +5,9 @@ $(document).ready(function () {
         defaultValues: {
             'textarea-input': 'foo',
             'text-input': 'bar',
-            'select-input': 'B',
-            'checkbox-input': ['A', 'B'],
-            'radio-input': 'B'
+            'firstName': 'Sathosi',
+            'lastName': 'Nakomoto',
+            'twitter': 'www.twitter.com/Sathoshi'
         },
         show: function () {
             $(this).slideDown();
