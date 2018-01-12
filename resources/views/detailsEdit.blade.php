@@ -85,7 +85,7 @@
                                         <label>Firstname</label>
                                         <label>Lastname</label>
                                         <label>Twitter</label>
-                                        <div data-repeater-list="group-a">
+                                        <div data-repeater-list="team">
                                             <div data-repeater-item>
 
                                                 <input type="text" name="firstName" value='{{ $instrumentUnderEdit->firstName }}' />

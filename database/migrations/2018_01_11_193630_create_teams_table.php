@@ -16,6 +16,7 @@ class CreateTeamsTable extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('instruments_id')->nullable($value = true);
+            $table->integer('revisions_id')->nullable($value = true);
             $table->string('firstname')->nullable($value = true);
             $table->string('lastname')->nullable($value = true);
             $table->string('twitterAccount')->nullable($value = true);

@@ -16,6 +16,7 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('instruments_id')->nullable($value = true);
+            $table->integer('revisions_id')->nullable($value = true);
             $table->string('name')->nullable($value = true);
             $table->string('link')->nullable($value = true);
             $table->dateTimeTz('date')->nullable($value = true); //with timezone

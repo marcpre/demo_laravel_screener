@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Instruments;
 use App\Revision;
+use App\Team;
+use Artisan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Log;
 use Response;
 use Session;
 use Validator;
-use Artisan;
 
 class InstrumentsController extends Controller
 {
@@ -162,7 +163,7 @@ class InstrumentsController extends Controller
         }
         return redirect()->route('revision.rindex');
     }
-    
+
     public function details($id)
     {
         $instrument = Instruments::find($id);
@@ -181,18 +182,47 @@ class InstrumentsController extends Controller
     public function updateDetails(Request $request, $id)
     {
 /*
-        $this->validate($request, [
-            'firstName' => 'nullable|min:2|max:190',
-            'lastName' => 'nullable|min:3|max:190',
-            'twitter' => 'nullable|min:3|max:190',
-        ]);
-*/
-        $instrument = Instruments::find($id);
-        Log::info("Instrument: ");
-        Log::info($instrument);
+$this->validate($request, [
+'firstName' => 'nullable|min:2|max:190',
+'lastName' => 'nullable|min:3|max:190',
+'twitter' => 'nullable|min:3|max:190',
+]);
+ */
 
-        Log::info("Request: ");
-        Log::info($request);
+        try {
+            $revision = new Revision();
+            $revision->revision_status = null;
+            $revision->save();
+
+            $i = Instruments::find($id);
+
+            Log::info($i);
+            Log::info("request");
+            Log::info($request);
+            Log::info("firstName");
+            Log::info($request->team[0]['firstName']);
+
+            foreach ($request as $key => $value) {
+                Log::info($key);
+
+                $team = new Team();
+                $team->firstname = $request->team[$key]['firstName'];
+                $team->lastname = $request->team[$key]['lastName'];
+                $team->twitter = $request->team[$key]['twitter'];
+                $team->revisions_id = $revision->id;
+
+                Log::info("team");
+                Log::info($team);
+
+                $team->save();
+            }
+
+            // Session::flash('success', 'Thank you for your contribution!');
+            return view('detailsEdit')->with('instrumentUnderEdit', $instrument);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+
     }
-    
+
 }
