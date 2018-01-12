@@ -5,30 +5,23 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <img style="height: 32px; width: 32px;" src="{{ asset('images')}}/{{ $instrumentUnderEdit->image }}" /> {{ $instrumentUnderEdit->name }}
-                    <a href="{{ route('instrument.editDetails', ['instrument_id'=>$instrumentUnderEdit->id]) }}">
-                        <sup> EDIT</sup>
-                    </a>
                 </div>
                 <div class="panel-body">
-                {{-- display success message --}}
-    @if (Session::has('success'))
-      <div class="alert alert-success">
-        <strong>Success:</strong> {{ Session::get('success') }}
-      </div>
-    @endif
+                    {{-- display success message --}} @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        <strong>Success:</strong> {{ Session::get('success') }}
+                    </div>
+                    @endif {{-- display error message --}} @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong>
+                        <ul>
+                            @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
 
-    {{-- display error message --}}
-    @if (count($errors) > 0)
-      <div class="alert alert-danger">
-        <strong>Error:</strong>
-        <ul>
-          @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div>
-    @endif
-     
                 </div>
                 <div class="container-fluid">
                     <div class="col-md-2">
@@ -95,13 +88,17 @@
                                                 <input type="text" name="text-input" value='{{ $instrumentUnderEdit->firstName }}' />
 
                                                 <input type="text" name="text-input" value='{{ $instrumentUnderEdit->lastName }}' />
-                                                
+
                                                 <input type="text" name="text-input" value='{{ $instrumentUnderEdit->twitter }}' />
 
                                                 <input data-repeater-delete type="button" value="Delete" />
                                             </div>
                                         </div>
                                         <input data-repeater-create type="button" value="Add" />
+                                        </br>
+                                        </br>
+                                        <input type="hidden" name='_method' value='POST'>
+                                        <input id="revisionOverviewSubmit" type="submit" class='btn btn-success btn-sm' value='Update'>
                                     </form>
                                     <!-- Form -->
                                     <h3>
@@ -120,7 +117,7 @@
 
                                                 <input type="date" name="date-input" value='{{ $instrumentUnderEdit->date}}' />
 
-<!--
+                                                <!--
                                                 <textarea name="textarea-input">A</textarea>
 
                                                 
@@ -150,7 +147,7 @@
                                         Code Repository
                                     </h3>
                                     <!-- Form -->
-                                    <form action="echo.php" class="repeater" enctype="multipart/form-data">
+                                    <form action="{{ route('instrument.updateDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
                                         <label>Link</label>
                                         <div data-repeater-list="group-a">
                                             <div data-repeater-item>

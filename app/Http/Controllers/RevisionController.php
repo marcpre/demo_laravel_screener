@@ -6,17 +6,16 @@ use App\Instruments;
 use App\Revision;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Log;
 
 class RevisionController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -205,6 +204,22 @@ class RevisionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updateDetails(Request $request, $id)
+    {
+        $this->validate($request, [
+            'firstName' => 'nullable|min:2|max:190',
+            'lastName' => 'nullable|min:3|max:190',
+            'twitter' => 'nullable|min:3|max:190',
+        ]);
+
+        $instrument = Instruments::find($id);
+        Log::info("Instrument: ");
+        Log::info($instrument);
+
+        Log::info("Request: ");
+        Log::info($request);
     }
 
 }
