@@ -178,4 +178,21 @@ class InstrumentsController extends Controller
         return view('detailsEdit')->with('instrumentUnderEdit', $instrument);
     }
 
+    public function updateDetails(Request $request, $id)
+    {
+/*
+        $this->validate($request, [
+            'firstName' => 'nullable|min:2|max:190',
+            'lastName' => 'nullable|min:3|max:190',
+            'twitter' => 'nullable|min:3|max:190',
+        ]);
+*/
+        $instrument = Instruments::find($id);
+        Log::info("Instrument: ");
+        Log::info($instrument);
+
+        Log::info("Request: ");
+        Log::info($request);
+    }
+    
 }
