@@ -22,7 +22,7 @@
                                             Country of Origin
                                         </td>
                                         <td>
-                                            Whatever
+                                            {{ $instrumentUnderEdit->country_of_origin }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -30,7 +30,7 @@
                                             Sector
                                         </td>
                                         <td>
-                                            Whatever
+                                            {{ $instrumentUnderEdit->sector }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -66,8 +66,8 @@
                                             @foreach ($teamUnderEdit as $key => $cryptos)
                                             <tr id="cryptos{{$cryptos->id}}">
                                                 <td>{{ ++$key }}</td>
-                                                <td>{{ $cryptos->firstName }}</td>
-                                                <td>{{ $cryptos->lastName }}</td>
+                                                <td>{{ $cryptos->firstname }}</td>
+                                                <td>{{ $cryptos->lastname }}</td>
                                                 <td>{{ $cryptos->twitterAccount }}</td>                                                
                                             </tr>
                                             @endforeach

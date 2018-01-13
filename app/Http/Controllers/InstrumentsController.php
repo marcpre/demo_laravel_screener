@@ -175,7 +175,7 @@ class InstrumentsController extends Controller
                 ['instruments.id', '=', $id],
             ])
             ->orderBy('instruments.name')
-            ->get();
+            ->first();
 
         $team = Team::join('instruments', 'teams.instruments_id', '=', 'instruments.id')
             ->join('revisions', 'revisions.id', '=', 'teams.revisions_id')
