@@ -166,20 +166,40 @@ class InstrumentsController extends Controller
 
     public function details($id)
     {
-        $instrument = Instruments::find($id);
-        Log::info($instrument);
+        // $instrument = Instruments::find($id);
+        // Log::info($instrument);
 
-        return view('details')->with('instrumentUnderEdit', $instrument);
+        $instrument = Instruments::join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
+            ->where([
+                ['revisions.revision_status', '=', '1'],
+                ['instruments.id', '=', $id],
+            ])
+            ->orderBy('instruments.name')
+            ->get();
+
+        $team = Team::join('instruments', 'teams.instruments_id', '=', 'instruments.id')
+            ->join('revisions', 'revisions.id', '=', 'teams.revisions_id')
+            ->where([
+                ['revisions.revision_status', '=', '1'],
+                ['instruments.id', '=', $id],
+            ])
+            ->orderBy('instruments.name')
+            ->get();
+
+        Log::info($instrument);
+        Log::info($team);
+
+        return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team);
     }
 
-    public function editDetails($id)
+    public function editTeamDetails($id)
     {
         $instrument = Instruments::find($id);
 
-        return view('detailsEdit')->with('instrumentUnderEdit', $instrument);
+        return view('detailsTeamEdit')->with('instrumentUnderEdit', $instrument);
     }
 
-    public function updateDetails(Request $request, $id)
+    public function updateTeamDetails(Request $request, $id)
     {
 /*
 $this->validate($request, [
@@ -196,19 +216,13 @@ $this->validate($request, [
 
             $i = Instruments::find($id);
 
-            Log::info($i);
-            Log::info("request");
-            Log::info($request);
-            Log::info("firstName");
-            Log::info($request->team[0]['firstName']);
-
-            foreach ($request as $key => $value) {
-                Log::info($key);
+            foreach ($request['team'] as $key => $value) {
 
                 $team = new Team();
-                $team->firstname = $request->team[$key]['firstName'];
-                $team->lastname = $request->team[$key]['lastName'];
-                $team->twitter = $request->team[$key]['twitter'];
+                $team->firstname = $value['firstName'];
+                $team->lastname = $value['lastName'];
+                $team->twitterAccount = $value['twitter'];
+                $team->instruments_id = $i->id;
                 $team->revisions_id = $revision->id;
 
                 Log::info("team");
@@ -217,8 +231,8 @@ $this->validate($request, [
                 $team->save();
             }
 
-            // Session::flash('success', 'Thank you for your contribution!');
-            return view('detailsEdit')->with('instrumentUnderEdit', $instrument);
+            Session::flash('success', 'Thank you for your contribution!');
+            return view('updateTeamDetails')->with('instrumentUnderEdit', $i);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
