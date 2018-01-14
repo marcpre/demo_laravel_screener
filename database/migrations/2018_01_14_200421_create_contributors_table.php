@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSocialsTable extends Migration
+class CreateContributorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateSocialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('socials', function (Blueprint $table) {
+        Schema::create('contributors', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('instruments_id')->nullable($value = true);
-            $table->integer('users_id')->nullable($value = true);
-            $table->integer('revisions_id')->nullable($value = true);
-            $table->string('link')->nullable($value = true);
+            $table->string('name');
+            $table->string('email');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateSocialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('socials');
+        Schema::dropIfExists('contributors');
     }
 }
