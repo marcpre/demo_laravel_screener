@@ -83,11 +83,24 @@
                                         <input data-repeater-create type="button" value="Add" />
                                         </br>
                                         </br>
+
+                                        <div class="row">
+                                            <div class="form-group col-xs-5 col-lg-1">
+                                                <label>User Name*</label>
+                                                <input type="text" name="userName" class="form-control" placeholder="Insert your contributor name" style="width: 250px;">                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group col-xs-5 col-lg-1 ">
+                                                <label>Email*</label>
+                                                <input type="text" name="email" class="form-control input-normal" placeholder="Insert your email address" style="width: 250px;"/>
+                                            </div>
+                                        </div>
+
                                         <input type="hidden" name='_method' value='POST'>
-                                        <input type="text" name="userName" value='Insert your contributor name' />
-                                        <input type="text" name="emailName" value='Insert your email address' />
                                         <input type="submit" class='btn btn-success btn-sm' value='Update'>
                                     </form>
+                                    <!-- Form -->                                       
                                     <h3>
                                         Upcoming Events
                                     </h3>

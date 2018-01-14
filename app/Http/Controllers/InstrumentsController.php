@@ -193,7 +193,7 @@ class InstrumentsController extends Controller
         Log::info("res");
 
         list($instrument, $team) = $this->getDetails($id);
-        
+
         return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team);
     }
 
@@ -206,13 +206,14 @@ class InstrumentsController extends Controller
 
     public function updateTeamDetails(Request $request, $id)
     {
-/*
-$this->validate($request, [
-'firstName' => 'nullable|min:2|max:190',
-'lastName' => 'nullable|min:3|max:190',
-'twitter' => 'nullable|min:3|max:190',
-]);
- */
+
+        $this->validate($request, [
+            'firstName' => 'nullable|min:2|max:190',
+            'lastName' => 'nullable|min:3|max:190',
+            'twitter' => 'nullable|min:3|max:190',
+            'userName' => 'required|min:1|max:190',
+            'email' => 'required|email',
+        ]);
 
         try {
             $revision = new Revision();
@@ -230,8 +231,6 @@ $this->validate($request, [
                 $team->instruments_id = $i->id;
                 $team->revisions_id = $revision->id;
 
-                //                Log::info("team");
-                //                Log::info($team);
                 $team->save();
             }
 
