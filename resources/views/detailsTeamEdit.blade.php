@@ -6,15 +6,12 @@
                 <div class="panel-heading">
                     <img style="height: 32px; width: 32px;" src="{{ asset('images')}}/{{ $instrumentUnderEdit->image }}" /> {{ $instrumentUnderEdit->name }}
                 </div>
-                <div class="panel-body">              
-                    {{-- display success message --}} 
-                    @if (Session::has('success'))
+                <div class="panel-body">
+                    {{-- display success message --}} @if (Session::has('success'))
                     <div class="alert alert-success">
                         <strong>Success:</strong> {{ Session::get('success') }}
                     </div>
-                    @endif 
-                    {{-- display error message --}} 
-                    @if (count($errors) > 0)
+                    @endif {{-- display error message --}} @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <strong>Error:</strong>
                         <ul>
@@ -37,14 +34,7 @@
                                             Country of Origin
                                         </td>
                                         <td>
-                                            <form action="" method='POST'>
-                                                {{ csrf_field() }}
-                                                <input type="hidden" name='_method' value='PUT'>
-
-                                                <div class="form-group">
-                                                    <input type="text" name='updatedTaskName' class='form-control input-sm' value=''>
-                                                </div>
-                                            </form>
+                                            {{ $instrumentUnderEdit->country_of_origin }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -52,14 +42,7 @@
                                             Sector
                                         </td>
                                         <td>
-                                            <form action="" method='POST'>
-                                                {{ csrf_field() }}
-                                                <input type="hidden" name='_method' value='PUT'>
-
-                                                <div class="form-group">
-                                                    <input type="text" name='updatedTaskName' class='form-control input-sm' value=''>
-                                                </div>
-                                            </form>
+                                            {{ $instrumentUnderEdit->sector }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -81,7 +64,7 @@
                                     </h3>
                                     <!-- Form -->
                                     <form action="{{ route('instrument.updateDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
+                                        {{ csrf_field() }}
                                         <label>Firstname</label>
                                         <label>Lastname</label>
                                         <label>Twitter</label>
@@ -101,67 +84,34 @@
                                         </br>
                                         </br>
                                         <input type="hidden" name='_method' value='POST'>
+                                        <input type="text" name="userName" value='Insert your contributor name' />
+                                        <input type="text" name="emailName" value='Insert your email address' />
                                         <input type="submit" class='btn btn-success btn-sm' value='Update'>
                                     </form>
-                                    <!-- Form -->
                                     <h3>
                                         Upcoming Events
                                     </h3>
-                                    <!-- Form -->
-                                    <form action="" method='POST' class="repeater" enctype="multipart/form-data">
-                                        <label>Event Name</label>
-                                        <label>Link</label>
-                                        <label>Date</label>
-                                        <div data-repeater-list="group-a">
-                                            <div data-repeater-item>
-                                                <input name="untyped-input" value="A" />
-
-                                                <input type="text" name="text-input" value="A" />
-
-                                                <input type="date" name="date-input" value='{{ $instrumentUnderEdit->date}}' />
-
-                                                <!--
-                                                <textarea name="textarea-input">A</textarea>
-
-                                                
-                                                <input type="radio" name="radio-input" value="A" checked/>
-                                                <input type="radio" name="radio-input" value="B" />
-
-                                                <input type="checkbox" name="checkbox-input" value="A" checked/>
-                                                <input type="checkbox" name="checkbox-input" value="B" />
-
-                                                <select name="select-input">
-                                                    <option value="A" selected>A</option>
-                                                    <option value="B">B</option>
-                                                </select>
-
-                                                <select name="multiple-select-input" multiple>
-                                                    <option value="A" selected>A</option>
-                                                    <option value="B" selected>B</option>
-                                                </select>
--->
-                                                <input data-repeater-delete type="button" value="Delete" />
-                                            </div>
-                                        </div>
-                                        <input data-repeater-create type="button" value="Add" />
-                                    </form>
-                                    <!-- Form -->
                                     <h3>
                                         Code Repository
                                     </h3>
-                                    <!-- Form -->
-                                    <form action="" method='POST' class="repeater" enctype="multipart/form-data">
-                                        <label>Link</label>
-                                        <div data-repeater-list="group-a">
-                                            <div data-repeater-item>
-
-                                                <input type="text" name="text-input" value="A" />
-
-                                                <input data-repeater-delete type="button" value="Delete" />
-                                            </div>
-                                        </div>
-                                        <input data-repeater-create type="button" value="Add" />
-                                    </form>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Link</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                     <!-- Form -->
                                 </div>
                             </div>

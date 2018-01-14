@@ -164,12 +164,10 @@ class InstrumentsController extends Controller
         return redirect()->route('revision.rindex');
     }
 
-    public function details($id)
+    public function getDetails($id)
     {
-        // $instrument = Instruments::find($id);
-        // Log::info($instrument);
 
-        $instrument = Instruments::join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
+        $instruments = Instruments::join('revisions', 'revisions.id', '=', 'instruments.revisions_id')
             ->where([
                 ['revisions.revision_status', '=', '1'],
                 ['instruments.id', '=', $id],
@@ -186,9 +184,16 @@ class InstrumentsController extends Controller
             ->orderBy('instruments.name')
             ->get();
 
-        Log::info($instrument);
-        Log::info($team);
+        $result = array($instruments, $team);
+        return $result;
+    }
 
+    public function details($id)
+    {
+        Log::info("res");
+
+        list($instrument, $team) = $this->getDetails($id);
+        
         return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team);
     }
 
@@ -225,18 +230,18 @@ $this->validate($request, [
                 $team->instruments_id = $i->id;
                 $team->revisions_id = $revision->id;
 
-                Log::info("team");
-                Log::info($team);
-
+                //                Log::info("team");
+                //                Log::info($team);
                 $team->save();
             }
 
+            list($instrument, $team) = $this->getDetails($id);
+
             Session::flash('success', 'Thank you for your contribution!');
-            return view('updateTeamDetails')->with('instrumentUnderEdit', $i);
+            return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
-
     }
 
 }

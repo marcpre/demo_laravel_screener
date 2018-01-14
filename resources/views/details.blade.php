@@ -5,11 +5,23 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <img style="height: 32px; width: 32px;" src="{{ asset('images')}}/{{ $instrumentUnderEdit->image }}" /> {{ $instrumentUnderEdit->name }}
-                    <a href="{{ route('instrument.editTeamDetails', ['instrument_id'=>$instrumentUnderEdit->id]) }}">
-                        <sup> EDIT</sup>
-                    </a>
                 </div>
-                <div class="panel-body"></div>
+                <div class="panel-body">
+                    {{-- display success message --}} @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        <strong>Success:</strong> {{ Session::get('success') }}
+                    </div>
+                    @endif {{-- display error message --}} @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong>
+                        <ul>
+                            @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                </div>
                 <div class="container-fluid">
                     <div class="col-md-2">
                         <div class="table-responsive">
@@ -68,7 +80,7 @@
                                                 <td>{{ ++$key }}</td>
                                                 <td>{{ $cryptos->firstname }}</td>
                                                 <td>{{ $cryptos->lastname }}</td>
-                                                <td>{{ $cryptos->twitterAccount }}</td>                                                
+                                                <td>{{ $cryptos->twitterAccount }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
