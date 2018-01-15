@@ -18,6 +18,7 @@ class CreateSocialsTable extends Migration
             $table->integer('instruments_id')->nullable($value = true);
             $table->integer('users_id')->nullable($value = true);
             $table->integer('revisions_id')->nullable($value = true);
+            $table->enum('level', ['github', 'facebook', 'twitter']);	
             $table->string('link')->nullable($value = true);
             $table->timestamps();
         });

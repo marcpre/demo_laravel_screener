@@ -7,13 +7,15 @@ $(document).ready(function () {
             'text-input': 'bar',
             'firstName': 'Sathosi',
             'lastName': 'Nakomoto',
-            'twitter': 'www.twitter.com/Sathoshi'
+            'twitter': 'www.twitter.com/Sathoshi',
+            'eventName': 'Crypto Event',
+            'eventLink': 'www.mycryptoevent.com/event'
         },
         show: function () {
             $(this).slideDown();
         },
         hide: function (deleteElement) {
-            if(confirm('Are you sure you want to delete this element?')) {
+            if (confirm('Are you sure you want to delete this element?')) {
                 $(this).slideUp(deleteElement);
             }
         },
@@ -24,7 +26,9 @@ $(document).ready(function () {
 
     window.outerRepeater = $('.outer-repeater').repeater({
         isFirstItemUndeletable: true,
-        defaultValues: { 'text-input': 'outer-default' },
+        defaultValues: {
+            'text-input': 'outer-default'
+        },
         show: function () {
             console.log('outer show');
             $(this).slideDown();
@@ -36,7 +40,9 @@ $(document).ready(function () {
         repeaters: [{
             isFirstItemUndeletable: true,
             selector: '.inner-repeater',
-            defaultValues: { 'inner-text-input': 'inner-default' },
+            defaultValues: {
+                'inner-text-input': 'inner-default'
+            },
             show: function () {
                 console.log('inner show');
                 $(this).slideDown();

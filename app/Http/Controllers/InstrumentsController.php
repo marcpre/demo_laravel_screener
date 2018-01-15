@@ -331,11 +331,11 @@ class InstrumentsController extends Controller
             $contributor->save();
 
             foreach ($request['event'] as $key => $value) {
-
+                
                 $event = new Event();
-                $event->eventName = $value['eventName'];
-                $event->eventLink = $value['eventLink'];
-                $event->eventDate = $value['eventDate'];
+                $event->name = $value['eventName'];
+                $event->link = $value['eventLink'];
+                $event->date = $value['eventDate'];
                 $event->instruments_id = $i->id;
                 $event->revisions_id = $revision->id;
                 $event->users_id = $contributor->id;
