@@ -265,7 +265,7 @@ class InstrumentsController extends Controller
                 $team->twitterAccount = $value['twitter'];
                 $team->instruments_id = $i->id;
                 $team->revisions_id = $revision->id;
-                $team->users_id = $contributor->id;
+                $team->contributors_id = $contributor->id;
                 $team->save();
             }
 
@@ -338,7 +338,7 @@ class InstrumentsController extends Controller
                 $event->date = $value['eventDate'];
                 $event->instruments_id = $i->id;
                 $event->revisions_id = $revision->id;
-                $event->users_id = $contributor->id;
+                $event->contributors_id = $contributor->id;
                 $event->save();
             }
 
