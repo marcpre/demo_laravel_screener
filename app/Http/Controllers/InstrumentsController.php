@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Contributor;
+use App\Event;
 use App\Instruments;
 use App\Revision;
 use App\Team;
-use App\Event;
-use App\Contributor;
+use App\Social;
 use Artisan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -188,7 +189,7 @@ class InstrumentsController extends Controller
             ])
             ->orderBy('instruments.name')
             ->get();
-            
+
         $event = Event::join('instruments', 'events.instruments_id', '=', 'instruments.id')
             ->join('revisions', 'revisions.id', '=', 'events.revisions_id')
             ->where([
@@ -198,7 +199,17 @@ class InstrumentsController extends Controller
             ->orderBy('instruments.name')
             ->get();
 
-        $result = array($instruments, $team, $event);
+        $codeRepo = Social::join('instruments', 'socials.instruments_id', '=', 'instruments.id')
+            ->join('revisions', 'revisions.id', '=', 'socials.revisions_id')
+            ->where([
+                ['revisions.revision_status', '=', '1'],
+                ['instruments.id', '=', $id],
+                ['socials.type', '=', 'github'],
+            ])
+            ->orderBy('instruments.name')
+            ->get();
+
+        $result = array($instruments, $team, $event, $codeRepo);
         return $result;
     }
 
@@ -206,14 +217,21 @@ class InstrumentsController extends Controller
     {
         Log::info("res");
 
-        list($instrument, $team, $event) = $this->getDetails($id);
+/*        list($instrument, $team, $event) = $this->getDetails($id);
 
-        return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team);
+return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team);
+ */
+        list($instrument, $team, $event, $codeRepo) = $this->getDetails($id);
+
+        return view('details')->with('instrumentUnderEdit', $instrument)
+            ->with('teamUnderEdit', $team)
+            ->with('eventUnderEdit', $event)
+            ->with('codeRepoUnderEdit', $codeRepo);
     }
 
     /**
      * Team
-     **/ 
+     **/
     public function editTeamDetails($id)
     {
         $instrument = Instruments::find($id);
@@ -272,7 +290,11 @@ class InstrumentsController extends Controller
             list($instrument, $team, $event) = $this->getDetails($id);
 
             Session::flash('success', 'Thank you for your contribution!');
-            return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team)->with('eventUnderEdit', $event);
+            return view('details')
+                ->with('instrumentUnderEdit', $instrument)
+                ->with('teamUnderEdit', $team)
+                ->with('eventUnderEdit', $event)
+                ->with('codeRepoUnderEdit', $codeRepo);        
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
@@ -280,18 +302,19 @@ class InstrumentsController extends Controller
 
     /**
      * Event
-     **/ 
+     **/
     public function editEventDetails($id)
     {
 /*        $instrument = Instruments::find($id);
 
-        return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument);
-*/
-        list($instrument, $team, $event) = $this->getDetails($id);
+return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument);
+ */
+        list($instrument, $team, $event, $codeRepo) = $this->getDetails($id);
 
         return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument)
-                                       ->with('teamUnderEdit', $team)
-                                       ->with('eventUnderEdit', $event);
+            ->with('teamUnderEdit', $team)
+            ->with('eventUnderEdit', $event)
+            ->with('codeRepoUnderEdit', $codeRepo);
     }
 
     public function updateEventDetails(Request $request, $id)
@@ -331,7 +354,7 @@ class InstrumentsController extends Controller
             $contributor->save();
 
             foreach ($request['event'] as $key => $value) {
-                
+
                 $event = new Event();
                 $event->name = $value['eventName'];
                 $event->link = $value['eventLink'];
@@ -345,9 +368,84 @@ class InstrumentsController extends Controller
             list($instrument, $team, $event) = $this->getDetails($id);
 
             Session::flash('success', 'Thank you for your contribution!');
-            return view('details')->with('instrumentUnderEdit', $instrument)
-                                  ->with('teamUnderEdit', $team)
-                                  ->with('eventUnderEdit', $event);
+            return view('details')
+                ->with('instrumentUnderEdit', $instrument)
+                ->with('teamUnderEdit', $team)
+                ->with('eventUnderEdit', $event)
+                ->with('codeRepoUnderEdit', $codeRepo);      
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
+    /**
+     * Code Repo
+     **/
+    public function editCodeRepoDetails($id)
+    {
+
+        list($instrument, $team, $event, $codeRepo) = $this->getDetails($id);
+
+        return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument)
+            ->with('teamUnderEdit', $team)
+            ->with('eventUnderEdit', $event)
+            ->with('codeRepoUnderEdit', $codeRepo);
+    }
+
+    public function updateCodeRepoDetails(Request $request, $id)
+    {
+        $this->validate($request, [
+            'eventName' => 'nullable|min:3|max:190',
+            'eventLink' => 'nullable|min:3|max:190',
+            'eventDate' => 'nullable|min:3|max:190',
+            'event.*.eventName' => 'nullable|min:3|max:190',
+            'event.*.eventLink' => 'nullable|min:3|max:190',
+            'event.*.eventDate' => 'nullable|min:3|max:190',
+            'userName' => 'required|min:1|max:190',
+            'email' => 'required|email',
+        ], [
+            'event.*.eventName.min' => 'The Event Name must be at least :min.',
+            'event.*.eventName.max' => 'The Event Name should maximal be :max.',
+            'event.*.eventLink.min' => 'The Event Link must be at least :min.',
+            'event.*.eventLink.max' => 'The Event Link should maximal be :max.',
+            'event.*.eventDate.min' => 'The Twitter Link must be at least :min.',
+            'event.*.eventDate.max' => 'The Twitter Link should maximal be :max.',
+        ]);
+
+        try {
+            $revision = new Revision();
+            $revision->revision_status = null;
+            $revision->save();
+
+            $i = Instruments::find($id);
+
+            Log::info("res");
+            Log::info($request);
+
+            //save user
+            $contributor = new Contributor();
+            $contributor->name = $request['userName'];
+            $contributor->email = $request['email'];
+            $contributor->save();
+
+            foreach ($request['event'] as $key => $value) {
+
+                $codeRepo = new Social();
+                $codeRepo->link = $value['eventLink'];
+                $codeRepo->instruments_id = $i->id;
+                $codeRepo->revisions_id = $revision->id;
+                $codeRepo->contributors_id = $contributor->id;
+                $codeRepo->save();
+            }
+
+            list($instrument, $team, $event, $codeRepo) = $this->getDetails($id);
+
+            Session::flash('success', 'Thank you for your contribution!');
+            return view('details')
+                ->with('instrumentUnderEdit', $instrument)
+                ->with('teamUnderEdit', $team)
+                ->with('eventUnderEdit', $event)
+                ->with('codeRepoUnderEdit', $codeRepo);      
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }

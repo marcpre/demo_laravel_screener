@@ -26,6 +26,10 @@ Route::post('/details/{instrument_id}/updateTeam', 'InstrumentsController@update
 Route::get('/details/{instrument_id}/editEvent', 'InstrumentsController@editEventDetails')->name('instrument.editEventDetails');
 Route::post('/details/{instrument_id}/updateEvent', 'InstrumentsController@updateEventDetails')->name('instrument.updateEventDetails');
 
+Route::get('/details/{instrument_id}/editCodeRepo', 'InstrumentsController@editCodeRepoDetails')->name('instrument.editCodeRepoDetails');
+Route::post('/details/{instrument_id}/updateCodeRepo', 'InstrumentsController@updateCodeRepoDetails')->name('instrument.updateCodeRepoDetails');
+
+
 // Auth
 Auth::routes();
 
