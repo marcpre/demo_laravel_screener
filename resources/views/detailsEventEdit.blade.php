@@ -68,17 +68,17 @@
                                     <!-- Form -->
                                     <form action="{{ route('instrument.updateEventDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
                                         {{ csrf_field() }}
-                                        <label>Firstname</label>
-                                        <label>Lastname</label>
-                                        <label>Twitter</label>
-                                        <div data-repeater-list="team">
+                                        <label>Event Name</label>
+                                        <label>Link</label>
+                                        <label>Date</label>
+                                        <div data-repeater-list="event">
                                             <div data-repeater-item>
 
-                                                <input type="text" name="eventName" value='{{ $eventUnderEdit->name }}' />
+                                                <input type="text" name="eventName" value='' />
 
-                                                <input type="text" name="eventLink" value='{{ $eventUnderEdit->link }}' />
+                                                <input type="text" name="eventLink" value='' />
 
-                                                <input type="date" name="eventDate" value='{{ $eventUnderEdit->date }}' />
+                                                <input type="date" name="eventDate" value='' />
 
                                                 <input data-repeater-delete type="button" value="Delete" />
                                             </div>

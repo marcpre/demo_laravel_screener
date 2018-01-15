@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Instruments;
 use App\Revision;
 use App\Team;
+use App\Event;
 use App\Contributor;
 use Artisan;
 use Illuminate\Http\Request;
@@ -188,7 +189,7 @@ class InstrumentsController extends Controller
             ->orderBy('instruments.name')
             ->get();
             
-        $event = Team::join('events', 'events.instruments_id', '=', 'instruments.id')
+        $event = Event::join('instruments', 'events.instruments_id', '=', 'instruments.id')
             ->join('revisions', 'revisions.id', '=', 'events.revisions_id')
             ->where([
                 ['revisions.revision_status', '=', '1'],
@@ -205,7 +206,7 @@ class InstrumentsController extends Controller
     {
         Log::info("res");
 
-        list($instrument, $team) = $this->getDetails($id);
+        list($instrument, $team, $event) = $this->getDetails($id);
 
         return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team);
     }
@@ -282,29 +283,35 @@ class InstrumentsController extends Controller
      **/ 
     public function editEventDetails($id)
     {
-        $instrument = Instruments::find($id);
+/*        $instrument = Instruments::find($id);
 
         return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument);
+*/
+        list($instrument, $team, $event) = $this->getDetails($id);
+
+        return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument)
+                                       ->with('teamUnderEdit', $team)
+                                       ->with('eventUnderEdit', $event);
     }
 
     public function updateEventDetails(Request $request, $id)
     {
         $this->validate($request, [
-            'firstName' => 'nullable|min:3|max:190',
-            'lastName' => 'nullable|min:3|max:190',
-            'twitter' => 'nullable|min:3|max:190',
-            'team.*.firstName' => 'nullable|min:3|max:190',
-            'team.*.lastName' => 'nullable|min:3|max:190',
-            'team.*.twitter' => 'nullable|min:3|max:190',
+            'eventName' => 'nullable|min:3|max:190',
+            'eventLink' => 'nullable|min:3|max:190',
+            'eventDate' => 'nullable|min:3|max:190',
+            'event.*.eventName' => 'nullable|min:3|max:190',
+            'event.*.eventLink' => 'nullable|min:3|max:190',
+            'event.*.eventDate' => 'nullable|min:3|max:190',
             'userName' => 'required|min:1|max:190',
             'email' => 'required|email',
         ], [
-            'team.*.firstName.min' => 'The firstname must be at least :min.',
-            'team.*.firstName.max' => 'The firstname should maximal be :max.',
-            'team.*.lastName.min' => 'The lastname must be at least :min.',
-            'team.*.lastName.max' => 'The lastname should maximal be :max.',
-            'team.*.twitter.min' => 'The Twitter Link must be at least :min.',
-            'team.*.twitter.max' => 'The Twitter Link should maximal be :max.',
+            'event.*.eventName.min' => 'The Event Name must be at least :min.',
+            'event.*.eventName.max' => 'The Event Name should maximal be :max.',
+            'event.*.eventLink.min' => 'The Event Link must be at least :min.',
+            'event.*.eventLink.max' => 'The Event Link should maximal be :max.',
+            'event.*.eventDate.min' => 'The Twitter Link must be at least :min.',
+            'event.*.eventDate.max' => 'The Twitter Link should maximal be :max.',
         ]);
 
         try {
@@ -323,19 +330,19 @@ class InstrumentsController extends Controller
             $contributor->email = $request['email'];
             $contributor->save();
 
-            foreach ($request['team'] as $key => $value) {
+            foreach ($request['event'] as $key => $value) {
 
-                $team = new Team();
-                $team->firstname = $value['firstName'];
-                $team->lastname = $value['lastName'];
-                $team->twitterAccount = $value['twitter'];
-                $team->instruments_id = $i->id;
-                $team->revisions_id = $revision->id;
-                $team->users_id = $contributor->id;
-                $team->save();
+                $event = new Event();
+                $event->eventName = $value['eventName'];
+                $event->eventLink = $value['eventLink'];
+                $event->eventDate = $value['eventDate'];
+                $event->instruments_id = $i->id;
+                $event->revisions_id = $revision->id;
+                $event->users_id = $contributor->id;
+                $event->save();
             }
 
-            list($instrument, $team) = $this->getDetails($id);
+            list($instrument, $team, $event) = $this->getDetails($id);
 
             Session::flash('success', 'Thank you for your contribution!');
             return view('details')->with('instrumentUnderEdit', $instrument)
