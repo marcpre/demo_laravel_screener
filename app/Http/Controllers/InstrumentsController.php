@@ -187,8 +187,17 @@ class InstrumentsController extends Controller
             ])
             ->orderBy('instruments.name')
             ->get();
+            
+        $event = Team::join('events', 'events.instruments_id', '=', 'instruments.id')
+            ->join('revisions', 'revisions.id', '=', 'events.revisions_id')
+            ->where([
+                ['revisions.revision_status', '=', '1'],
+                ['instruments.id', '=', $id],
+            ])
+            ->orderBy('instruments.name')
+            ->get();
 
-        $result = array($instruments, $team);
+        $result = array($instruments, $team, $event);
         return $result;
     }
 
@@ -201,6 +210,9 @@ class InstrumentsController extends Controller
         return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team);
     }
 
+    /**
+     * Team
+     **/ 
     public function editTeamDetails($id)
     {
         $instrument = Instruments::find($id);
@@ -256,10 +268,79 @@ class InstrumentsController extends Controller
                 $team->save();
             }
 
+            list($instrument, $team, $event) = $this->getDetails($id);
+
+            Session::flash('success', 'Thank you for your contribution!');
+            return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team)->with('eventUnderEdit', $event);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
+    /**
+     * Event
+     **/ 
+    public function editEventDetails($id)
+    {
+        $instrument = Instruments::find($id);
+
+        return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument);
+    }
+
+    public function updateEventDetails(Request $request, $id)
+    {
+        $this->validate($request, [
+            'firstName' => 'nullable|min:3|max:190',
+            'lastName' => 'nullable|min:3|max:190',
+            'twitter' => 'nullable|min:3|max:190',
+            'team.*.firstName' => 'nullable|min:3|max:190',
+            'team.*.lastName' => 'nullable|min:3|max:190',
+            'team.*.twitter' => 'nullable|min:3|max:190',
+            'userName' => 'required|min:1|max:190',
+            'email' => 'required|email',
+        ], [
+            'team.*.firstName.min' => 'The firstname must be at least :min.',
+            'team.*.firstName.max' => 'The firstname should maximal be :max.',
+            'team.*.lastName.min' => 'The lastname must be at least :min.',
+            'team.*.lastName.max' => 'The lastname should maximal be :max.',
+            'team.*.twitter.min' => 'The Twitter Link must be at least :min.',
+            'team.*.twitter.max' => 'The Twitter Link should maximal be :max.',
+        ]);
+
+        try {
+            $revision = new Revision();
+            $revision->revision_status = null;
+            $revision->save();
+
+            $i = Instruments::find($id);
+
+            Log::info("res");
+            Log::info($request);
+
+            //save user
+            $contributor = new Contributor();
+            $contributor->name = $request['userName'];
+            $contributor->email = $request['email'];
+            $contributor->save();
+
+            foreach ($request['team'] as $key => $value) {
+
+                $team = new Team();
+                $team->firstname = $value['firstName'];
+                $team->lastname = $value['lastName'];
+                $team->twitterAccount = $value['twitter'];
+                $team->instruments_id = $i->id;
+                $team->revisions_id = $revision->id;
+                $team->users_id = $contributor->id;
+                $team->save();
+            }
+
             list($instrument, $team) = $this->getDetails($id);
 
             Session::flash('success', 'Thank you for your contribution!');
-            return view('details')->with('instrumentUnderEdit', $instrument)->with('teamUnderEdit', $team);
+            return view('details')->with('instrumentUnderEdit', $instrument)
+                                  ->with('teamUnderEdit', $team)
+                                  ->with('eventUnderEdit', $event);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }

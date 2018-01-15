@@ -63,7 +63,7 @@
                                         Team
                                     </h3>
                                     <!-- Form -->
-                                    <form action="{{ route('instrument.updateDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
+                                    <form action="{{ route('instrument.updateTeamDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
                                         {{ csrf_field() }}
                                         <label>Firstname</label>
                                         <label>Lastname</label>

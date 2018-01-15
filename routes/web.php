@@ -21,7 +21,10 @@ Route::get('/',[
 //repeater Fields
 Route::get('/details/{instrument_id}', 'InstrumentsController@details')->name('instrument.details');
 Route::get('/details/{instrument_id}/editTeam', 'InstrumentsController@editTeamDetails')->name('instrument.editTeamDetails');
-Route::post('/details/{instrument_id}/update', 'InstrumentsController@updateTeamDetails')->name('instrument.updateDetails');
+Route::post('/details/{instrument_id}/updateTeam', 'InstrumentsController@updateTeamDetails')->name('instrument.updateTeamDetails');
+
+Route::get('/details/{instrument_id}/editEvent', 'InstrumentsController@editEventDetails')->name('instrument.editEventDetails');
+Route::post('/details/{instrument_id}/updateEvent', 'InstrumentsController@updateEventDetails')->name('instrument.updateEventDetails');
 
 // Auth
 Auth::routes();

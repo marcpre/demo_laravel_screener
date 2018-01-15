@@ -61,36 +61,49 @@
                                 <div class="tab-pane active" id="panel-495769">
                                     <h3>
                                         Team
-                                        <a href="{{ route('instrument.editTeamDetails', ['instrument_id'=>$instrumentUnderEdit->id]) }}">
-                                            <sup> EDIT</sup>
-                                        </a>
                                     </h3>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Twitter</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($teamUnderEdit as $key => $cryptos)
-                                            <tr id="cryptos{{$cryptos->id}}">
-                                                <td>{{ ++$key }}</td>
-                                                <td>{{ $cryptos->firstname }}</td>
-                                                <td>{{ $cryptos->lastname }}</td>
-                                                <td>{{ $cryptos->twitterAccount }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
                                     <h3>
                                         Upcoming Events
-                                        <a href="{{ route('instrument.editEventDetails', ['instrument_id'=>$instrumentUnderEdit->id]) }}">
-                                            <sup> EDIT</sup>
-                                        </a>
                                     </h3>
+                                    <!-- Form -->
+                                    <form action="{{ route('instrument.updateEventDetails', [$instrumentUnderEdit->id]) }}" method='POST' class="repeater" enctype="multipart/form-data">
+                                        {{ csrf_field() }}
+                                        <label>Firstname</label>
+                                        <label>Lastname</label>
+                                        <label>Twitter</label>
+                                        <div data-repeater-list="team">
+                                            <div data-repeater-item>
+
+                                                <input type="text" name="eventName" value='{{ $eventUnderEdit->name }}' />
+
+                                                <input type="text" name="eventLink" value='{{ $eventUnderEdit->link }}' />
+
+                                                <input type="date" name="eventDate" value='{{ $eventUnderEdit->date }}' />
+
+                                                <input data-repeater-delete type="button" value="Delete" />
+                                            </div>
+                                        </div>
+                                        <input data-repeater-create type="button" value="Add" />
+                                        </br>
+                                        </br>
+
+                                        <div class="row">
+                                            <div class="form-group col-xs-5 col-lg-1">
+                                                <label>User Name*</label>
+                                                <input type="text" name="userName" class="form-control" placeholder="Insert your contributor name" style="width: 250px;">                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group col-xs-5 col-lg-1 ">
+                                                <label>Email*</label>
+                                                <input type="text" name="email" class="form-control input-normal" placeholder="Insert your email address" style="width: 250px;"/>
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" name='_method' value='POST'>
+                                        <input type="submit" class='btn btn-success btn-sm' value='Update'>
+                                    </form>
+                                    <!-- Form -->                                       
                                     <h3>
                                         Code Repository
                                     </h3>
@@ -112,6 +125,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <!-- Form -->
                                 </div>
                             </div>
                         </div>
