@@ -386,7 +386,7 @@ return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument);
 
         list($instrument, $team, $event, $codeRepo) = $this->getDetails($id);
 
-        return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument)
+        return view('detailsCodeRepoEdit')->with('instrumentUnderEdit', $instrument)
             ->with('teamUnderEdit', $team)
             ->with('eventUnderEdit', $event)
             ->with('codeRepoUnderEdit', $codeRepo);
@@ -395,21 +395,12 @@ return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument);
     public function updateCodeRepoDetails(Request $request, $id)
     {
         $this->validate($request, [
-            'eventName' => 'nullable|min:3|max:190',
-            'eventLink' => 'nullable|min:3|max:190',
-            'eventDate' => 'nullable|min:3|max:190',
-            'event.*.eventName' => 'nullable|min:3|max:190',
-            'event.*.eventLink' => 'nullable|min:3|max:190',
-            'event.*.eventDate' => 'nullable|min:3|max:190',
+            'codeRepoLink' => 'url|min:3|max:190',
+            'codeRepo.*.codeRepoLink' => 'nullable|min:3|max:190',
             'userName' => 'required|min:1|max:190',
             'email' => 'required|email',
         ], [
-            'event.*.eventName.min' => 'The Event Name must be at least :min.',
-            'event.*.eventName.max' => 'The Event Name should maximal be :max.',
-            'event.*.eventLink.min' => 'The Event Link must be at least :min.',
-            'event.*.eventLink.max' => 'The Event Link should maximal be :max.',
-            'event.*.eventDate.min' => 'The Twitter Link must be at least :min.',
-            'event.*.eventDate.max' => 'The Twitter Link should maximal be :max.',
+            'codeRepo.*.codeRepoLink' => 'The link to the code repo must be at least :min.',
         ]);
 
         try {
@@ -428,10 +419,11 @@ return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument);
             $contributor->email = $request['email'];
             $contributor->save();
 
-            foreach ($request['event'] as $key => $value) {
+            foreach ($request['codeRepo'] as $key => $value) {
 
                 $codeRepo = new Social();
-                $codeRepo->link = $value['eventLink'];
+                $codeRepo->link = $value['codeRepoLink'];
+                $codeRepo->type = 'github';
                 $codeRepo->instruments_id = $i->id;
                 $codeRepo->revisions_id = $revision->id;
                 $codeRepo->contributors_id = $contributor->id;

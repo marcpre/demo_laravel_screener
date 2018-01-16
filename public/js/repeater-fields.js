@@ -9,7 +9,8 @@ $(document).ready(function () {
             'lastName': 'Nakomoto',
             'twitter': 'www.twitter.com/Sathoshi',
             'eventName': 'Crypto Event',
-            'eventLink': 'www.mycryptoevent.com/event'
+            'eventLink': 'www.mycryptoevent.com/event',
+            'codeRepoLink': 'www.github.com/bitcoin'
         },
         show: function () {
             $(this).slideDown();
