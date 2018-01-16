@@ -16,6 +16,7 @@ class CreateInstrumentsTable extends Migration
         Schema::create('instruments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('revisions_id')->nullable($value = true);
+            $table->integer('contributors_id')->nullable($value = true);
             $table->string('name');
             $table->string('symbol');
             $table->string('image');

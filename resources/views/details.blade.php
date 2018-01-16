@@ -28,6 +28,9 @@
                             </br>
                             </br>
                             <table class="table">
+                                <a href="{{ route('instrument.editSideTableDetails', ['instrument_id'=>$instrumentUnderEdit->id]) }}">
+                                    <sup> EDIT</sup>
+                                </a>
                                 <tbody>
                                     <tr>
                                         <td>

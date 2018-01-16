@@ -29,6 +29,9 @@ Route::post('/details/{instrument_id}/updateEvent', 'InstrumentsController@updat
 Route::get('/details/{instrument_id}/editCodeRepo', 'InstrumentsController@editCodeRepoDetails')->name('instrument.editCodeRepoDetails');
 Route::post('/details/{instrument_id}/updateCodeRepo', 'InstrumentsController@updateCodeRepoDetails')->name('instrument.updateCodeRepoDetails');
 
+Route::get('/details/{instrument_id}/editSideTable', 'InstrumentsController@editSideTableDetails')->name('instrument.editSideTableDetails');
+Route::post('/details/{instrument_id}/updateSideTable', 'InstrumentsController@updateSideTableDetails')->name('instrument.updateSideTableDetails');
+
 
 // Auth
 Auth::routes();

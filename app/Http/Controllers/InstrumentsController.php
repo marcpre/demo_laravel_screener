@@ -442,4 +442,68 @@ return view('detailsEventEdit')->with('instrumentUnderEdit', $instrument);
             Log::error($e->getMessage());
         }
     }
+    
+    /**
+     * Side Table
+     **/
+    public function editSideTableDetails($id)
+    {
+
+        list($instrument, $team, $event, $codeRepo) = $this->getDetails($id);
+
+        return view('detailsSideTableEdit')->with('instrumentUnderEdit', $instrument)
+            ->with('teamUnderEdit', $team)
+            ->with('eventUnderEdit', $event)
+            ->with('codeRepoUnderEdit', $codeRepo);
+    }
+
+    public function updateSideTableDetails(Request $request, $id)
+    {
+        $this->validate($request, [
+            'country_of_origin' => 'min:3|max:190',
+            'sector' => 'min:3|max:190',
+            'userName' => 'required|min:1|max:190',
+            'email' => 'required|email',
+        ]);
+
+        try {
+            $revision = new Revision();
+            $revision->revision_status = null;
+            $revision->save();
+
+            $i = Instruments::find($id);
+
+            Log::info("res");
+            Log::info($request);
+
+            //save user
+            $contributor = new Contributor();
+            $contributor->name = $request['userName'];
+            $contributor->email = $request['email'];
+            $contributor->save();
+
+//            foreach ($request['codeRepo'] as $key => $value) {
+// Adding Form Data
+            $instrument = new Instruments();
+            $instrument->sector = $request->sector;
+            $instrument->country_of_origin = $request->country_of_origin;
+            $instrument->name = $i->name;
+            $instrument->revisions_id = $revision->id;
+            $instrument->contributors_id = $contributor->id;
+            $instrument->save();
+//            }
+
+            list($instrument, $team, $event, $codeRepo) = $this->getDetails($id);
+
+            Session::flash('success', 'Thank you for your contribution!');
+            return view('details')
+                ->with('instrumentUnderEdit', $instrument)
+                ->with('teamUnderEdit', $team)
+                ->with('eventUnderEdit', $event)
+                ->with('codeRepoUnderEdit', $codeRepo);      
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
 }
